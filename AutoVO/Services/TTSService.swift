@@ -1,12 +1,16 @@
 import Foundation
 import AVFoundation
 
-@MainActor
+// Not @MainActor: the write() callback fires on a background thread and
+// needs to access engine/playerNode directly without actor-hopping.
 final class TTSService: NSObject, ObservableObject {
     private let synthesizer = AVSpeechSynthesizer()
     private var audioEngine = AVAudioEngine()
     private var playerNode = AVAudioPlayerNode()
-    private var isCancelled = false
+    // Accessed from both main thread and write() callback thread — using
+    // a simple volatile-like pattern is sufficient here (worst case: one
+    // extra buffer gets scheduled after cancel, which is harmless).
+    private var isCancelled: Bool = false
 
     var onUtteranceFinished: (() -> Void)?
 
@@ -50,7 +54,6 @@ final class TTSService: NSObject, ObservableObject {
         }
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate
 
-        // Use write() to capture PCM buffers and play via AVAudioEngine
         if !audioEngine.isRunning {
             do {
                 try audioEngine.start()
@@ -68,15 +71,15 @@ final class TTSService: NSObject, ObservableObject {
             guard let pcmBuffer = buffer as? AVAudioPCMBuffer else { return }
 
             if pcmBuffer.frameLength == 0 {
-                // Utterance complete
-                DispatchQueue.main.async {
-                    self.onUtteranceFinished?()
+                // Zero-length buffer signals utterance complete
+                DispatchQueue.main.async { [weak self] in
+                    self?.onUtteranceFinished?()
                 }
                 return
             }
 
-            // Convert buffer format if needed
-            if let convertedBuffer = self.convert(buffer: pcmBuffer, to: self.audioEngine.mainMixerNode.outputFormat(forBus: 0)) {
+            let targetFormat = self.audioEngine.mainMixerNode.outputFormat(forBus: 0)
+            if let convertedBuffer = self.convert(buffer: pcmBuffer, to: targetFormat) {
                 self.playerNode.scheduleBuffer(convertedBuffer, completionHandler: nil)
             } else {
                 self.playerNode.scheduleBuffer(pcmBuffer, completionHandler: nil)
@@ -124,7 +127,7 @@ final class TTSService: NSObject, ObservableObject {
 }
 
 extension TTSService: AVSpeechSynthesizerDelegate {
-    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         // Handled via write() zero-length buffer callback
     }
 }

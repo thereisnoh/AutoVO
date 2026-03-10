@@ -2,10 +2,9 @@ import SwiftUI
 
 @main
 struct AutoVOApp: App {
-    @StateObject private var settings = AppSettings()
-    @StateObject private var deviceService = AudioDeviceService()
-    @StateObject private var tts = TTSService()
-
+    @StateObject private var settings: AppSettings
+    @StateObject private var deviceService: AudioDeviceService
+    @StateObject private var tts: TTSService
     @StateObject private var projectVM: ProjectViewModel
     @StateObject private var playback: PlaybackViewModel
 
