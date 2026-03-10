@@ -3,7 +3,7 @@ import AVFoundation
 
 // Not @MainActor: the write() callback fires on a background thread and
 // needs to access engine/playerNode directly without actor-hopping.
-final class TTSService: NSObject, ObservableObject {
+final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
     private let synthesizer = AVSpeechSynthesizer()
     private var audioEngine = AVAudioEngine()
     private var playerNode = AVAudioPlayerNode()
