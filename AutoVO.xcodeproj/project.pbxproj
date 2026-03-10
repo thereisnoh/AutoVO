@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		032403289E70413AACE92C98 /* ScriptListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2221FE20385D4DA0907B4122 /* ScriptListView.swift */; };
+		09A2ECE0CFF744E1892C6E9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83B52266DFB4BD38B18160F /* ContentView.swift */; };
+		14FFF348497F404B85A40A7B /* AutoVOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48FC341B1A94D2A867EFA3D /* AutoVOApp.swift */; };
+		3AB3A90847994EF8A5C16D3E /* ScriptRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */; };
+		5DEDB4CAA19C4E3794CC8BBF /* AudioDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */; };
+		650024B7D44646F59F11BA21 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247E56552D17447B8E4AF682 /* AVFoundation.framework */; };
+		65C480A96F294D1DB1AD548D /* PlaybackControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */; };
+		72BD5428E5064F37A0EF4F71 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */; };
+		8735935E50AD43DD8FE9E335 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */; };
+		921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5703D90D699342C79889F5EF /* ScriptEditorView.swift */; };
+		A527726ADD854231A925513C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */; };
+		AEAC923476E94801B61CD31B /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EED1EB1304D473EBD7E9F74 /* Script.swift */; };
+		D0779757930547A2A9B3F941 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3618C9E46BFBCA33B04 /* AppSettings.swift */; };
+		D3B658BD506A435EBC5262E7 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5669625A57A74821A5566BDA /* TTSService.swift */; };
+		D4760B7DA9DD4E8BBC5E5034 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936727535D1E423DA1A00AC1 /* Project.swift */; };
+		D6653C769ED146B3A38E2ABC /* PlaybackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */; };
+		EB93F2455BB64517A7E41717 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0526E16F358481F887222B8 /* ProjectManager.swift */; };
+		EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackControlsView.swift; sourceTree = "<group>"; };
+		2221FE20385D4DA0907B4122 /* ScriptListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptListView.swift; sourceTree = "<group>"; };
+		247E56552D17447B8E4AF682 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		45E3B5578DA945AD981EEE0E /* AutoVO.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutoVO.entitlements; sourceTree = "<group>"; };
+		5669625A57A74821A5566BDA /* TTSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSService.swift; sourceTree = "<group>"; };
+		5703D90D699342C79889F5EF /* ScriptEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptEditorView.swift; sourceTree = "<group>"; };
+		5EED1EB1304D473EBD7E9F74 /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
+		78B808F068A34ABB8516972B /* AutoVO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoVO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		936727535D1E423DA1A00AC1 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		9EC0C3618C9E46BFBCA33B04 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		A83B52266DFB4BD38B18160F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C48FC341B1A94D2A867EFA3D /* AutoVOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoVOApp.swift; sourceTree = "<group>"; };
+		CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceService.swift; sourceTree = "<group>"; };
+		DB72D29E048F415CBD72FF1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewModel.swift; sourceTree = "<group>"; };
+		E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
+		ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptRowView.swift; sourceTree = "<group>"; };
+		F0526E16F358481F887222B8 /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FC56A4777B8B49748C854F63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				650024B7D44646F59F11BA21 /* AVFoundation.framework in Frameworks */,
+				8735935E50AD43DD8FE9E335 /* CoreAudio.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		10A3B3ADED914926976EBC49 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5EED1EB1304D473EBD7E9F74 /* Script.swift */,
+				936727535D1E423DA1A00AC1 /* Project.swift */,
+				9EC0C3618C9E46BFBCA33B04 /* AppSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		28A3763FD9A744A590DCD75F = {
+			isa = PBXGroup;
+			children = (
+				84872B6AB0064CC8996EA68E /* AutoVO */,
+				4AF144F47A3541049D247582 /* Products */,
+				ECBEB575F3DD4FC286D10B82 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4AF144F47A3541049D247582 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				78B808F068A34ABB8516972B /* AutoVO.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7F233B0112494933B42AC449 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A83B52266DFB4BD38B18160F /* ContentView.swift */,
+				2221FE20385D4DA0907B4122 /* ScriptListView.swift */,
+				ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */,
+				5703D90D699342C79889F5EF /* ScriptEditorView.swift */,
+				056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */,
+				E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84872B6AB0064CC8996EA68E /* AutoVO */ = {
+			isa = PBXGroup;
+			children = (
+				C48FC341B1A94D2A867EFA3D /* AutoVOApp.swift */,
+				10A3B3ADED914926976EBC49 /* Models */,
+				DF3A89A58E2442D486FFC80C /* Services */,
+				F32BB9B7543D46F0A34BF95D /* ViewModels */,
+				7F233B0112494933B42AC449 /* Views */,
+				8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */,
+				DB72D29E048F415CBD72FF1B /* Info.plist */,
+				45E3B5578DA945AD981EEE0E /* AutoVO.entitlements */,
+			);
+			path = AutoVO;
+			sourceTree = "<group>";
+		};
+		DF3A89A58E2442D486FFC80C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5669625A57A74821A5566BDA /* TTSService.swift */,
+				CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */,
+				F0526E16F358481F887222B8 /* ProjectManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		ECBEB575F3DD4FC286D10B82 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				247E56552D17447B8E4AF682 /* AVFoundation.framework */,
+				A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F32BB9B7543D46F0A34BF95D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */,
+				E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D7B2772E12D140CEB8AD8A7C /* AutoVO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F6B79D1636964A16B9869E1F /* Build configuration list for PBXNativeTarget "AutoVO" */;
+			buildPhases = (
+				69987BAE939440658955BBE6 /* Sources */,
+				FC56A4777B8B49748C854F63 /* Frameworks */,
+				F397202EE4304A7DB3F63EE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutoVO;
+			productName = AutoVO;
+			productReference = 78B808F068A34ABB8516972B /* AutoVO.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4A4A2EEEC27E466E8B6BD8E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					D7B2772E12D140CEB8AD8A7C = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = F1C298D9827C4E02AD44AA93 /* Build configuration list for PBXProject "AutoVO" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 28A3763FD9A744A590DCD75F;
+			productRefGroup = 4AF144F47A3541049D247582 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D7B2772E12D140CEB8AD8A7C /* AutoVO */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F397202EE4304A7DB3F63EE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A527726ADD854231A925513C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		69987BAE939440658955BBE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14FFF348497F404B85A40A7B /* AutoVOApp.swift in Sources */,
+				09A2ECE0CFF744E1892C6E9B /* ContentView.swift in Sources */,
+				AEAC923476E94801B61CD31B /* Script.swift in Sources */,
+				D4760B7DA9DD4E8BBC5E5034 /* Project.swift in Sources */,
+				D0779757930547A2A9B3F941 /* AppSettings.swift in Sources */,
+				D3B658BD506A435EBC5262E7 /* TTSService.swift in Sources */,
+				5DEDB4CAA19C4E3794CC8BBF /* AudioDeviceService.swift in Sources */,
+				EB93F2455BB64517A7E41717 /* ProjectManager.swift in Sources */,
+				72BD5428E5064F37A0EF4F71 /* ProjectViewModel.swift in Sources */,
+				D6653C769ED146B3A38E2ABC /* PlaybackViewModel.swift in Sources */,
+				032403289E70413AACE92C98 /* ScriptListView.swift in Sources */,
+				3AB3A90847994EF8A5C16D3E /* ScriptRowView.swift in Sources */,
+				921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */,
+				65C480A96F294D1DB1AD548D /* PlaybackControlsView.swift in Sources */,
+				EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		36EBBE0198E84CD09A87A849 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AutoVO/AutoVO.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AutoVO/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autovo.AutoVO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		545BFF05137D46F9B91544B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		C58419A81E2642A99B42A8D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D1B5FFDB31FF45E9BB67BE35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AutoVO/AutoVO.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AutoVO/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autovo.AutoVO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F1C298D9827C4E02AD44AA93 /* Build configuration list for PBXProject "AutoVO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C58419A81E2642A99B42A8D2 /* Debug */,
+				545BFF05137D46F9B91544B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F6B79D1636964A16B9869E1F /* Build configuration list for PBXNativeTarget "AutoVO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1B5FFDB31FF45E9BB67BE35 /* Debug */,
+				36EBBE0198E84CD09A87A849 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4A4A2EEEC27E466E8B6BD8E6 /* Project object */;
+}
