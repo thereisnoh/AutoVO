@@ -10,11 +10,11 @@ final class ProjectViewModel: ObservableObject {
     @Published var selectedScriptID: UUID?
 
     private let manager = ProjectManager()
-    private let settings: AppSettings
+    // Own AppSettings instance — backed by UserDefaults so values are always
+    // in sync with the SettingsView's instance.
+    private let settings = AppSettings()
 
-    init(settings: AppSettings) {
-        self.settings = settings
-    }
+    init() {}
 
     // MARK: - Script CRUD
 

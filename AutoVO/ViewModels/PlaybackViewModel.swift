@@ -12,13 +12,13 @@ final class PlaybackViewModel: ObservableObject {
     @Published private(set) var currentIndex: Int = 0
     @Published private(set) var currentScriptID: UUID?
 
-    private let tts: TTSService
-    private let settings: AppSettings
+    // Both owned internally — TTSService and AppSettings share no global
+    // mutable state that requires injection from App.
+    private let tts = TTSService()
+    private let settings = AppSettings()
     private var queue: [Script] = []
 
-    init(tts: TTSService, settings: AppSettings) {
-        self.tts = tts
-        self.settings = settings
+    init() {
         tts.onUtteranceFinished = { [weak self] in
             Task { @MainActor [weak self] in
                 self?.advanceQueue()

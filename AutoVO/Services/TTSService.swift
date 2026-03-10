@@ -1,16 +1,13 @@
 import Foundation
 import AVFoundation
 
-// Not @MainActor: the write() callback fires on a background thread and
-// needs to access engine/playerNode directly without actor-hopping.
+// Not @MainActor: AVSpeechSynthesizer.write() fires its buffer callback on
+// a background thread, so actor isolation would be violated there.
 final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
     private let synthesizer = AVSpeechSynthesizer()
     private var audioEngine = AVAudioEngine()
     private var playerNode = AVAudioPlayerNode()
-    // Accessed from both main thread and write() callback thread — using
-    // a simple volatile-like pattern is sufficient here (worst case: one
-    // extra buffer gets scheduled after cancel, which is harmless).
-    private var isCancelled: Bool = false
+    private var isCancelled = false
 
     var onUtteranceFinished: (() -> Void)?
 
@@ -24,14 +21,13 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
         audioEngine = AVAudioEngine()
         playerNode = AVAudioPlayerNode()
         audioEngine.attach(playerNode)
-        let mainMixer = audioEngine.mainMixerNode
-        let outputFormat = mainMixer.outputFormat(forBus: 0)
-        audioEngine.connect(playerNode, to: mainMixer, format: outputFormat)
+        // Use nil format so AVAudioEngine picks the appropriate conversion
+        audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: nil)
     }
 
     func setOutputDevice(_ deviceID: UInt32) {
+        if audioEngine.isRunning { audioEngine.stop() }
         do {
-            if audioEngine.isRunning { audioEngine.stop() }
             try audioEngine.outputNode.auAudioUnit.setDeviceID(deviceID)
         } catch {
             print("TTSService: Failed to set output device: \(error)")
@@ -39,19 +35,20 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
     }
 
     func speak(text: String, voiceIdentifier: String?, outputDeviceID: UInt32?) {
-        stopSpeaking()
+        // Cancel any in-flight write() callback and stop the synthesizer.
+        // Do NOT touch playerNode here — engine may not be running yet.
+        isCancelled = true
+        synthesizer.stopSpeaking(at: .immediate)
+        if audioEngine.isRunning { playerNode.stop() }
         isCancelled = false
 
         if let deviceID = outputDeviceID {
-            setOutputDevice(deviceID)
+            setOutputDevice(deviceID) // stops engine if it was running
         }
 
         let utterance = AVSpeechUtterance(string: text)
-        if let voiceID = voiceIdentifier, let voice = AVSpeechSynthesisVoice(identifier: voiceID) {
-            utterance.voice = voice
-        } else {
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        }
+        utterance.voice = voiceIdentifier.flatMap { AVSpeechSynthesisVoice(identifier: $0) }
+            ?? AVSpeechSynthesisVoice(language: "en-US")
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate
 
         if !audioEngine.isRunning {
@@ -62,12 +59,10 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
                 return
             }
         }
-
         playerNode.play()
 
         synthesizer.write(utterance) { [weak self] buffer in
             guard let self, !self.isCancelled else { return }
-
             guard let pcmBuffer = buffer as? AVAudioPCMBuffer else { return }
 
             if pcmBuffer.frameLength == 0 {
@@ -79,51 +74,53 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
             }
 
             let targetFormat = self.audioEngine.mainMixerNode.outputFormat(forBus: 0)
-            if let convertedBuffer = self.convert(buffer: pcmBuffer, to: targetFormat) {
-                self.playerNode.scheduleBuffer(convertedBuffer, completionHandler: nil)
+            if let converted = self.convert(buffer: pcmBuffer, to: targetFormat) {
+                self.playerNode.scheduleBuffer(converted, completionHandler: nil)
             } else {
                 self.playerNode.scheduleBuffer(pcmBuffer, completionHandler: nil)
             }
         }
     }
 
-    private func convert(buffer: AVAudioPCMBuffer, to targetFormat: AVAudioFormat) -> AVAudioPCMBuffer? {
-        guard buffer.format != targetFormat,
-              let converter = AVAudioConverter(from: buffer.format, to: targetFormat) else { return nil }
-
-        let ratio = targetFormat.sampleRate / buffer.format.sampleRate
-        let outputFrameCapacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 512
-        guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: outputFrameCapacity) else { return nil }
-
-        var error: NSError?
-        let inputBlock: AVAudioConverterInputBlock = { _, outStatus in
-            outStatus.pointee = .haveData
-            return buffer
-        }
-        let status = converter.convert(to: outputBuffer, error: &error, withInputFrom: inputBlock)
-        if status == .error { return nil }
-        return outputBuffer
-    }
-
     func stopSpeaking() {
         isCancelled = true
         synthesizer.stopSpeaking(at: .immediate)
+        guard audioEngine.isRunning else { return }
         playerNode.stop()
-        playerNode.play()
     }
 
     func pauseSpeaking() {
         synthesizer.pauseSpeaking(at: .word)
+        guard audioEngine.isRunning else { return }
         playerNode.pause()
     }
 
     func resumeSpeaking() {
         synthesizer.continueSpeaking()
+        guard audioEngine.isRunning else { return }
         playerNode.play()
     }
 
     var isSpeaking: Bool { synthesizer.isSpeaking }
     var isPaused: Bool { synthesizer.isPaused }
+
+    // MARK: - Private
+
+    private func convert(buffer: AVAudioPCMBuffer, to targetFormat: AVAudioFormat) -> AVAudioPCMBuffer? {
+        guard buffer.format != targetFormat,
+              let converter = AVAudioConverter(from: buffer.format, to: targetFormat) else { return nil }
+
+        let ratio = targetFormat.sampleRate / buffer.format.sampleRate
+        let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 512
+        guard let output = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: capacity) else { return nil }
+
+        var error: NSError?
+        let status = converter.convert(to: output, error: &error) { _, outStatus in
+            outStatus.pointee = .haveData
+            return buffer
+        }
+        return status == .error ? nil : output
+    }
 }
 
 extension TTSService: AVSpeechSynthesizerDelegate {
