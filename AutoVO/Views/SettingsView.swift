@@ -4,7 +4,7 @@ import AVFoundation
 struct SettingsView: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var deviceService: AudioDeviceService
-    @EnvironmentObject var playback: PlaybackViewModel
+    @EnvironmentObject var cueList: CueListViewModel
 
     @State private var showAllLanguages = false
 
@@ -68,7 +68,7 @@ struct SettingsView: View {
 
                 Button("Preview Voice") {
                     let preview = Script(title: "Preview", body: "The quick brown fox jumps over the lazy dog.")
-                    playback.playOne(script: preview)
+                    cueList.preview(preview)
                 }
             }
 

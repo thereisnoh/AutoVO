@@ -6,7 +6,6 @@ struct AutoVOApp: App {
     @StateObject private var deviceService = AudioDeviceService()
     @StateObject private var render: CueRenderService
     @StateObject private var projectVM: ProjectViewModel
-    @StateObject private var playback: PlaybackViewModel
     @StateObject private var cueList: CueListViewModel
 
     init() {
@@ -15,7 +14,6 @@ struct AutoVOApp: App {
         _settings = StateObject(wrappedValue: settings)
         _render = StateObject(wrappedValue: render)
         _projectVM = StateObject(wrappedValue: ProjectViewModel(settings: settings))
-        _playback = StateObject(wrappedValue: PlaybackViewModel(settings: settings, render: render))
         _cueList = StateObject(wrappedValue: CueListViewModel(settings: settings, render: render))
     }
 
@@ -23,7 +21,6 @@ struct AutoVOApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(projectVM)
-                .environmentObject(playback)
                 .environmentObject(settings)
                 .environmentObject(deviceService)
                 .environmentObject(render)
@@ -40,7 +37,7 @@ struct AutoVOApp: App {
             SettingsView()
                 .environmentObject(settings)
                 .environmentObject(deviceService)
-                .environmentObject(playback)
+                .environmentObject(cueList)
         }
     }
 }
