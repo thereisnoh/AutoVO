@@ -25,6 +25,7 @@
 		ADE1B343467D4A52BB6091D7 /* libonnxruntime.1.24.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 078C94F67ECC44A5B7855BC2 /* libonnxruntime.1.24.4.dylib */; };
 		11EE593746A7466FBF418051 /* libonnxruntime.1.24.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 078C94F67ECC44A5B7855BC2 /* libonnxruntime.1.24.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A527726ADD854231A925513C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */; };
+		B52B187F42484014B8AAD820 /* kokoro in Resources */ = {isa = PBXBuildFile; fileRef = FE4DA309912D4C54BD2C95A0 /* kokoro */; };
 		AE8B723043C548368923EFE6 /* CueListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */; };
 		AEAC923476E94801B61CD31B /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EED1EB1304D473EBD7E9F74 /* Script.swift */; };
 		C5BE860B62B045B994E1DB8A /* KeyboardCueModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B179E49F6D4B5998406487 /* KeyboardCueModifier.swift */; };
@@ -54,6 +55,7 @@
 		78B808F068A34ABB8516972B /* AutoVO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoVO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A49CA77928B4C62AAEA77FB /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FE4DA309912D4C54BD2C95A0 /* kokoro */ = {isa = PBXFileReference; lastKnownFileType = folder; name = kokoro; path = Vendor/kokoro; sourceTree = SOURCE_ROOT; };
 		936727535D1E423DA1A00AC1 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		9EC0C3618C9E46BFBCA33B04 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -145,6 +147,7 @@
 				F32BB9B7543D46F0A34BF95D /* ViewModels */,
 				7F233B0112494933B42AC449 /* Views */,
 				8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */,
+				FE4DA309912D4C54BD2C95A0 /* kokoro */,
 				DB72D29E048F415CBD72FF1B /* Info.plist */,
 				45E3B5578DA945AD981EEE0E /* AutoVO.entitlements */,
 			);
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A527726ADD854231A925513C /* Assets.xcassets in Resources */,
+				B52B187F42484014B8AAD820 /* kokoro in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

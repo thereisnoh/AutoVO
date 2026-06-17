@@ -12,9 +12,15 @@ struct AutoVOApp: App {
         let settings = AppSettings()
         // Prefer the offline Kokoro neural engine; fall back to Apple's on-device
         // voices if the model bundle isn't present or fails to load.
-        let engine: SpeechEngine = KokoroSpeechEngine.locateModel()
-            .flatMap { try? KokoroSpeechEngine(modelDir: $0) }
-            ?? AppleSpeechEngine()
+        let engine: SpeechEngine
+        if let modelDir = KokoroSpeechEngine.locateModel(),
+           let kokoro = try? KokoroSpeechEngine(modelDir: modelDir) {
+            engine = kokoro
+            NSLog("[AutoVO] TTS engine: Kokoro (offline neural) — model at %@", modelDir.path)
+        } else {
+            engine = AppleSpeechEngine()
+            NSLog("[AutoVO] TTS engine: Apple (fallback) — Kokoro model not found")
+        }
         let render = CueRenderService(engine: engine)
         _settings = StateObject(wrappedValue: settings)
         _render = StateObject(wrappedValue: render)
