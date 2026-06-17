@@ -35,6 +35,10 @@ final class AppleSpeechEngine: SpeechEngine, @unchecked Sendable {
                 ?? Self.bestVoice(language: "en-US")
             utterance.rate = rate
 
+            // A SINGLE converter is reused for every buffer of this utterance, so
+            // sample-rate conversion is continuous (no per-buffer filter reset,
+            // which is what caused boundary clicks/crackle).
+            var converter: AVAudioConverter?
             var chunks: [AVAudioPCMBuffer] = []
             var finished = false
 
@@ -48,6 +52,9 @@ final class AppleSpeechEngine: SpeechEngine, @unchecked Sendable {
                     if let self {
                         self.lock.withLock { _ = self.active.remove(synth) }
                     }
+                    if let converter, let tail = Self.drain(converter, to: format) {
+                        chunks.append(tail)   // flush the resampler's remaining samples
+                    }
                     do {
                         continuation.resume(returning: try Self.assemble(chunks, format: format))
                     } catch {
@@ -56,8 +63,20 @@ final class AppleSpeechEngine: SpeechEngine, @unchecked Sendable {
                     return
                 }
 
-                if let converted = Self.convert(pcm, to: format) {
-                    chunks.append(converted)
+                // Already canonical (rare) — copy and keep, no conversion.
+                if pcm.format == format {
+                    if let copy = Self.copy(pcm) { chunks.append(copy) }
+                    return
+                }
+
+                if converter == nil {
+                    let made = AVAudioConverter(from: pcm.format, to: format)
+                    made?.sampleRateConverterAlgorithm = AVSampleRateConverterAlgorithm_Mastering
+                    made?.sampleRateConverterQuality = AVAudioQuality.max.rawValue
+                    converter = made
+                }
+                if let converter, let out = Self.feed(pcm, through: converter, to: format) {
+                    chunks.append(out)
                 }
             }
         }
@@ -80,28 +99,51 @@ final class AppleSpeechEngine: SpeechEngine, @unchecked Sendable {
         return AVSpeechSynthesisVoice(language: language)
     }
 
-    // MARK: - Buffer assembly
+    // MARK: - Continuous resampling
 
-    /// Convert one synthesizer buffer to the canonical format. Returns the input
-    /// unchanged when it already matches.
-    private static func convert(_ buffer: AVAudioPCMBuffer, to format: AVAudioFormat) -> AVAudioPCMBuffer? {
-        if buffer.format == format { return buffer }
-        guard let converter = AVAudioConverter(from: buffer.format, to: format) else { return nil }
+    /// Feed one input buffer through the shared converter WITHOUT flushing, so the
+    /// resampler keeps its filter state across buffer boundaries.
+    private static func feed(_ input: AVAudioPCMBuffer, through converter: AVAudioConverter, to format: AVAudioFormat) -> AVAudioPCMBuffer? {
+        let ratio = format.sampleRate / input.format.sampleRate
+        let capacity = AVAudioFrameCount(Double(input.frameLength) * ratio) + 4096
+        guard let output = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: capacity) else { return nil }
 
-        let ratio = format.sampleRate / buffer.format.sampleRate
-        let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 1024
-        guard capacity > 0, let output = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: capacity) else { return nil }
-
-        var consumed = false
+        var provided = false
         var error: NSError?
         let status = converter.convert(to: output, error: &error) { _, inStatus in
-            if consumed { inStatus.pointee = .endOfStream; return nil }
-            consumed = true
+            if provided { inStatus.pointee = .noDataNow; return nil }
+            provided = true
             inStatus.pointee = .haveData
-            return buffer
+            return input
         }
         guard status != .error, output.frameLength > 0 else { return nil }
         return output
+    }
+
+    /// Flush the converter's remaining (held-back) samples at end of stream.
+    private static func drain(_ converter: AVAudioConverter, to format: AVAudioFormat) -> AVAudioPCMBuffer? {
+        guard let output = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 8192) else { return nil }
+        var error: NSError?
+        let status = converter.convert(to: output, error: &error) { _, inStatus in
+            inStatus.pointee = .endOfStream
+            return nil
+        }
+        guard status != .error, output.frameLength > 0 else { return nil }
+        return output
+    }
+
+    /// Deep-copy a canonical (float, non-interleaved) buffer to retain it past the
+    /// synthesizer callback.
+    private static func copy(_ buffer: AVAudioPCMBuffer) -> AVAudioPCMBuffer? {
+        guard let out = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: buffer.frameLength),
+              let src = buffer.floatChannelData, let dst = out.floatChannelData else { return nil }
+        let channels = Int(buffer.format.channelCount)
+        let frames = Int(buffer.frameLength)
+        for ch in 0..<channels {
+            dst[ch].update(from: src[ch], count: frames)
+        }
+        out.frameLength = buffer.frameLength
+        return out
     }
 
     /// Concatenate canonical-format chunks into a single buffer + its duration.
