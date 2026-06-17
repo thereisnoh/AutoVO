@@ -10,11 +10,12 @@ final class ProjectViewModel: ObservableObject {
     @Published var selectedScriptID: UUID?
 
     private let manager = ProjectManager()
-    // Own AppSettings instance — backed by UserDefaults so values are always
-    // in sync with the SettingsView's instance.
-    private let settings = AppSettings()
+    // Shared, injected — the single source of truth for voice/rate/device.
+    private let settings: AppSettings
 
-    init() {}
+    init(settings: AppSettings) {
+        self.settings = settings
+    }
 
     // MARK: - Script CRUD
 

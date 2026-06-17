@@ -2,10 +2,20 @@ import SwiftUI
 
 @main
 struct AutoVOApp: App {
-    @StateObject private var settings = AppSettings()
+    @StateObject private var settings: AppSettings
     @StateObject private var deviceService = AudioDeviceService()
-    @StateObject private var projectVM = ProjectViewModel()
-    @StateObject private var playback = PlaybackViewModel()
+    @StateObject private var render: CueRenderService
+    @StateObject private var projectVM: ProjectViewModel
+    @StateObject private var playback: PlaybackViewModel
+
+    init() {
+        let settings = AppSettings()
+        let render = CueRenderService(engine: AppleSpeechEngine())
+        _settings = StateObject(wrappedValue: settings)
+        _render = StateObject(wrappedValue: render)
+        _projectVM = StateObject(wrappedValue: ProjectViewModel(settings: settings))
+        _playback = StateObject(wrappedValue: PlaybackViewModel(settings: settings, render: render))
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -14,6 +24,7 @@ struct AutoVOApp: App {
                 .environmentObject(playback)
                 .environmentObject(settings)
                 .environmentObject(deviceService)
+                .environmentObject(render)
                 .onOpenURL { url in
                     projectVM.open(url: url)
                 }

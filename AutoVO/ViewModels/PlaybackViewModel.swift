@@ -8,23 +8,29 @@ enum PlaybackState {
 
 /// Sequential playback over a queue of scripts.
 ///
-/// Each item is rendered to a complete `RenderedAudio` buffer by the swappable
-/// `SpeechEngine`, then scheduled on a warm `AudioPlayer`. `epoch` is bumped on
-/// every play/stop/skip so a stale async render or finished-buffer callback from
-/// a previous item is ignored. (The QLab cue model in M3 supersedes this VM.)
+/// Items are rendered (and cached) by the injected `CueRenderService`, then
+/// scheduled on a warm `AudioPlayer`. While an item plays, the next is warmed so
+/// the transition is gapless. `epoch` is bumped on every play/stop/skip so a
+/// stale async render or finished-buffer callback from a previous item is
+/// ignored. (The QLab cue model in M3 supersedes this VM.)
 @MainActor
 final class PlaybackViewModel: ObservableObject {
     @Published private(set) var state: PlaybackState = .idle
     @Published private(set) var currentIndex: Int = 0
     @Published private(set) var currentScriptID: UUID?
 
-    private let engine: SpeechEngine = AppleSpeechEngine()
     private let player = AudioPlayer()
-    private let settings = AppSettings()
+    private let settings: AppSettings
+    private let render: CueRenderService
     private var queue: [Script] = []
 
     private var epoch = 0
     private var renderTask: Task<Void, Never>?
+
+    init(settings: AppSettings, render: CueRenderService) {
+        self.settings = settings
+        self.render = render
+    }
 
     var totalCount: Int { queue.count }
 
@@ -88,21 +94,22 @@ final class PlaybackViewModel: ObservableObject {
 
         epoch &+= 1
         let myEpoch = epoch
-
-        let voiceID = settings.selectedVoiceIdentifier.isEmpty ? nil : settings.selectedVoiceIdentifier
-        let rate = Float(settings.speechRate)
         player.setOutputDevice(settings.selectedAudioDeviceID)
 
         renderTask?.cancel()
         renderTask = Task { [weak self] in
             guard let self else { return }
-            do {
-                let rendered = try await self.engine.render(
-                    text: script.body, voiceID: voiceID, rate: rate, format: AudioFormat.canonical)
-                if Task.isCancelled { return }
+            let rendered = await self.render.renderNow(script, settings: self.settings)
+            if Task.isCancelled { return }
+            if let rendered {
                 self.handleRendered(rendered, epoch: myEpoch)
-            } catch {
+            } else {
                 self.handleRenderFailure(epoch: myEpoch)
+            }
+            // Cue-ahead: warm the next item while this one plays.
+            let next = self.currentIndex + 1
+            if next < self.queue.count {
+                self.render.ensureRendered(self.queue[next], settings: self.settings)
             }
         }
     }
