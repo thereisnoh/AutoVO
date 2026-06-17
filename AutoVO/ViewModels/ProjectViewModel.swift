@@ -49,6 +49,17 @@ final class ProjectViewModel: ObservableObject {
         markDirty()
     }
 
+    func duplicateScript(id: UUID) {
+        guard let idx = project.scripts.firstIndex(where: { $0.id == id }) else { return }
+        var copy = project.scripts[idx]
+        copy.id = UUID()
+        copy.title = "Copy of \(copy.title)"
+        copy.hasCustomTitle = true
+        project.scripts.insert(copy, at: idx + 1)
+        selectedScriptID = copy.id
+        markDirty()
+    }
+
     // MARK: - File Operations
 
     func newProject() {

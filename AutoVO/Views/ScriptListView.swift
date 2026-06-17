@@ -13,11 +13,15 @@ struct ScriptListView: View {
                 )
                 .tag(script.id)
                 .contextMenu {
-                    Button("Delete", role: .destructive) {
-                        projectVM.deleteScript(id: script.id)
+                    Button("Duplicate") {
+                        projectVM.duplicateScript(id: script.id)
                     }
                     Button("Play This Script") {
                         playback.playOne(script: script)
+                    }
+                    Divider()
+                    Button("Delete", role: .destructive) {
+                        projectVM.deleteScript(id: script.id)
                     }
                 }
             }

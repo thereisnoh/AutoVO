@@ -5,6 +5,7 @@ struct Script: Identifiable, Codable, Equatable, Hashable {
     var title: String
     var body: String
     var createdAt: Date = Date()
+    var hasCustomTitle: Bool = false
 
     init(id: UUID = UUID(), title: String = "", body: String = "", createdAt: Date = Date()) {
         self.id = id
@@ -21,6 +22,7 @@ struct Script: Identifiable, Codable, Equatable, Hashable {
     }
 
     mutating func updateTitle() {
+        guard !hasCustomTitle else { return }
         title = Self.derivedTitle(from: body)
     }
 }

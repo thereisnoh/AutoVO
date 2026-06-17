@@ -34,7 +34,7 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
         }
     }
 
-    func speak(text: String, voiceIdentifier: String?, outputDeviceID: UInt32?) {
+    func speak(text: String, voiceIdentifier: String?, outputDeviceID: UInt32?, rate: Float = AVSpeechUtteranceDefaultSpeechRate) {
         // Cancel any in-flight write() callback and stop the synthesizer.
         // Do NOT touch playerNode here — engine may not be running yet.
         isCancelled = true
@@ -48,8 +48,8 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
 
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = voiceIdentifier.flatMap { AVSpeechSynthesisVoice(identifier: $0) }
-            ?? AVSpeechSynthesisVoice(language: "en-US")
-        utterance.rate = AVSpeechUtteranceDefaultSpeechRate
+            ?? bestAvailableVoice(language: "en-US")
+        utterance.rate = rate
 
         if !audioEngine.isRunning {
             do {
@@ -105,6 +105,14 @@ final class TTSService: NSObject, @unchecked Sendable, ObservableObject {
     var isPaused: Bool { synthesizer.isPaused }
 
     // MARK: - Private
+
+    private func bestAvailableVoice(language: String) -> AVSpeechSynthesisVoice? {
+        let voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix(language) }
+        // Prefer premium → enhanced → default
+        if let premium = voices.first(where: { $0.quality == .premium }) { return premium }
+        if let enhanced = voices.first(where: { $0.quality == .enhanced }) { return enhanced }
+        return AVSpeechSynthesisVoice(language: language)
+    }
 
     private func convert(buffer: AVAudioPCMBuffer, to targetFormat: AVAudioFormat) -> AVAudioPCMBuffer? {
         guard buffer.format != targetFormat,

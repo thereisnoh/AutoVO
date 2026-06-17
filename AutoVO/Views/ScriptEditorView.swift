@@ -2,18 +2,34 @@ import SwiftUI
 
 struct ScriptEditorView: View {
     @Binding var script: Script
+    @EnvironmentObject var playback: PlaybackViewModel
+
+    @FocusState private var focus: Field?
+
+    private enum Field { case title, body }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Text(script.title.isEmpty ? "Untitled Script" : script.title)
+                TextField("Script title", text: titleBinding)
                     .font(.headline)
-                    .foregroundStyle(.primary)
-                    .lineLimit(1)
+                    .textFieldStyle(.plain)
+                    .focused($focus, equals: .title)
+
                 Spacer()
-                Text(script.body.isEmpty ? "0 words" : "\(wordCount) words")
+
+                Text(statsLabel)
                     .font(.caption)
                     .foregroundStyle(.tertiary)
+
+                Button {
+                    playback.playOne(script: script)
+                } label: {
+                    Image(systemName: "play.fill")
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.accentColor)
+                .help("Play this script")
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -29,13 +45,31 @@ struct ScriptEditorView: View {
             ))
             .font(.body)
             .padding(8)
+            .focused($focus, equals: .body)
+        }
+        .onAppear {
+            if script.body.isEmpty {
+                focus = .body
+            }
         }
     }
 
-    private var wordCount: Int {
-        script.body
+    private var titleBinding: Binding<String> {
+        Binding(
+            get: { script.title },
+            set: { newValue in
+                script.title = newValue
+                script.hasCustomTitle = true
+            }
+        )
+    }
+
+    private var statsLabel: String {
+        let words = script.body
             .components(separatedBy: .whitespacesAndNewlines)
             .filter { !$0.isEmpty }
             .count
+        let chars = script.body.count
+        return "\(words)w · \(chars)c"
     }
 }

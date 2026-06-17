@@ -26,6 +26,7 @@ struct AutoVOApp: App {
             SettingsView()
                 .environmentObject(settings)
                 .environmentObject(deviceService)
+                .environmentObject(playback)
         }
     }
 }

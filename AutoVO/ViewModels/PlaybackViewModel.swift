@@ -90,8 +90,9 @@ final class PlaybackViewModel: ObservableObject {
 
         let voiceID = settings.selectedVoiceIdentifier.isEmpty ? nil : settings.selectedVoiceIdentifier
         let deviceID = settings.selectedAudioDeviceID
+        let rate = Float(settings.speechRate)
 
-        tts.speak(text: script.body, voiceIdentifier: voiceID, outputDeviceID: deviceID)
+        tts.speak(text: script.body, voiceIdentifier: voiceID, outputDeviceID: deviceID, rate: rate)
     }
 
     private func advanceQueue() {
