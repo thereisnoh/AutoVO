@@ -26,6 +26,7 @@
 		189927A087454843AAC46536 /* CueRenderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07801BD0C38E46DCBC5828F3 /* CueRenderService.swift */; };
 		D4760B7DA9DD4E8BBC5E5034 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936727535D1E423DA1A00AC1 /* Project.swift */; };
 		D6653C769ED146B3A38E2ABC /* PlaybackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */; };
+		AE8B723043C548368923EFE6 /* CueListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */; };
 		EB93F2455BB64517A7E41717 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0526E16F358481F887222B8 /* ProjectManager.swift */; };
 		EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,7 @@
 		CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceService.swift; sourceTree = "<group>"; };
 		DB72D29E048F415CBD72FF1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewModel.swift; sourceTree = "<group>"; };
+		6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueListViewModel.swift; sourceTree = "<group>"; };
 		E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
 		ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptRowView.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			children = (
 				E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */,
 				E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */,
+				6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				EB93F2455BB64517A7E41717 /* ProjectManager.swift in Sources */,
 				72BD5428E5064F37A0EF4F71 /* ProjectViewModel.swift in Sources */,
 				D6653C769ED146B3A38E2ABC /* PlaybackViewModel.swift in Sources */,
+				AE8B723043C548368923EFE6 /* CueListViewModel.swift in Sources */,
 				032403289E70413AACE92C98 /* ScriptListView.swift in Sources */,
 				3AB3A90847994EF8A5C16D3E /* ScriptRowView.swift in Sources */,
 				921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */,
