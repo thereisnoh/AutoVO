@@ -10,12 +10,55 @@ struct AudioDevice: Identifiable, Equatable {
 final class AudioDeviceService: ObservableObject {
     @Published private(set) var outputDevices: [AudioDevice] = []
 
+    private var listenerBlock: AudioObjectPropertyListenerBlock?
+
     init() {
         refresh()
+        addListeners()
+    }
+
+    deinit {
+        removeListeners()
     }
 
     func refresh() {
         outputDevices = Self.enumerateOutputDevices()
+    }
+
+    // MARK: - Hot-plug listening
+
+    private static let monitoredSelectors: [AudioObjectPropertySelector] = [
+        kAudioHardwarePropertyDevices,             // device added / removed
+        kAudioHardwarePropertyDefaultOutputDevice  // default output changed
+    ]
+
+    private static func systemAddress(_ selector: AudioObjectPropertySelector) -> AudioObjectPropertyAddress {
+        AudioObjectPropertyAddress(
+            mSelector: selector,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMain)
+    }
+
+    private func addListeners() {
+        let block: AudioObjectPropertyListenerBlock = { [weak self] _, _ in
+            self?.refresh()   // delivered on .main (the queue passed below)
+        }
+        listenerBlock = block
+        for selector in Self.monitoredSelectors {
+            var address = Self.systemAddress(selector)
+            AudioObjectAddPropertyListenerBlock(
+                AudioObjectID(kAudioObjectSystemObject), &address, DispatchQueue.main, block)
+        }
+    }
+
+    private func removeListeners() {
+        guard let block = listenerBlock else { return }
+        for selector in Self.monitoredSelectors {
+            var address = Self.systemAddress(selector)
+            AudioObjectRemovePropertyListenerBlock(
+                AudioObjectID(kAudioObjectSystemObject), &address, DispatchQueue.main, block)
+        }
+        listenerBlock = nil
     }
 
     private static func getCFStringProperty(deviceID: AudioDeviceID, selector: AudioObjectPropertySelector) -> String? {

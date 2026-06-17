@@ -24,12 +24,15 @@ final class AudioPlayer: @unchecked Sendable {
     /// device or when `deviceID` is nil (system default).
     func setOutputDevice(_ deviceID: UInt32?) {
         guard let id = deviceID, id != currentDeviceID else { return }
-        currentDeviceID = id
         if engine.isRunning { engine.stop() }
         do {
             try engine.outputNode.auAudioUnit.setDeviceID(id)
+            currentDeviceID = id
         } catch {
-            print("AudioPlayer: failed to set output device: \(error)")
+            // Device likely vanished — fall back to the system default output so
+            // the next cue still plays instead of failing silently.
+            print("AudioPlayer: output device \(id) unavailable, using system default: \(error)")
+            currentDeviceID = nil
         }
     }
 

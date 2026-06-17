@@ -7,11 +7,13 @@ struct ShowModeView: View {
     @EnvironmentObject var projectVM: ProjectViewModel
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var render: CueRenderService
+    @EnvironmentObject var deviceService: AudioDeviceService
     @Binding var mode: ContentView.Mode
 
     var body: some View {
         VStack(spacing: 0) {
             header
+            if deviceMissing { deviceBanner }
             tintedDivider
             armedPanel.padding(20)
             tintedDivider
@@ -64,6 +66,23 @@ struct ShowModeView: View {
 
     private var showName: String {
         projectVM.fileURL?.deletingPathExtension().lastPathComponent ?? "Untitled"
+    }
+
+    private var deviceMissing: Bool {
+        guard let id = settings.selectedAudioDeviceID else { return false }
+        return !deviceService.outputDevices.contains { $0.id == id }
+    }
+
+    private var deviceBanner: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+            Text("Selected output device unavailable — using system default")
+                .font(.callout)
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(Color.orange.opacity(0.20))
     }
 
     // MARK: - Armed panel
