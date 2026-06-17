@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ScriptEditorView: View {
     @Binding var script: Script
-    @EnvironmentObject var playback: PlaybackViewModel
+    @EnvironmentObject var cueList: CueListViewModel
 
     @FocusState private var focus: Field?
 
@@ -23,13 +23,13 @@ struct ScriptEditorView: View {
                     .foregroundStyle(.tertiary)
 
                 Button {
-                    playback.playOne(script: script)
+                    cueList.preview(script)
                 } label: {
                     Image(systemName: "play.fill")
                 }
                 .buttonStyle(.plain)
                 .foregroundColor(.accentColor)
-                .help("Play this script")
+                .help("Preview this cue")
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)

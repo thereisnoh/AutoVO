@@ -184,6 +184,36 @@ final class CueListViewModel: ObservableObject {
 
     func toggleStopAfter() { stopAfterArmed.toggle() }
 
+    /// Audition an arbitrary cue (the Edit-pane play button) without touching the
+    /// armed standby or fired markers. Shares the player, so it can't overlap GO.
+    func preview(_ script: Script) {
+        epoch &+= 1
+        let myEpoch = epoch
+        player.setOutputDevice(settings.selectedAudioDeviceID)
+        state = .firing
+        goTask?.cancel()
+        goTask = Task { [weak self] in
+            guard let self else { return }
+            let rendered = await self.render.renderNow(script, settings: self.settings)
+            guard !Task.isCancelled, self.epoch == myEpoch else { return }
+            guard let rendered else { self.state = .standby; return }
+            self.playingCueID = script.id
+            self.duration = rendered.duration
+            self.elapsed = 0
+            self.state = .playing
+            self.startTimer()
+            self.player.schedule(rendered) { [weak self] in
+                Task { @MainActor in
+                    guard let self, self.epoch == myEpoch else { return }
+                    self.stopTimer()
+                    self.playingCueID = nil
+                    self.elapsed = 0
+                    self.state = .standby
+                }
+            }
+        }
+    }
+
     /// Clear fired markers and arm the first cue (start of a run).
     func resetShow() {
         panic()

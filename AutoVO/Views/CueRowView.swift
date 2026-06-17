@@ -1,22 +1,24 @@
 import SwiftUI
 
-/// One row in the Show Mode cue list. Styling reflects armed / playing / fired
-/// state plus the cue's render status. Tapping arms the cue.
+/// One row in the cue list. Styling reflects armed / playing / fired / selected
+/// state plus the cue's render status. Selection is handled by the enclosing
+/// List; arming is a separate action (context menu or ↑/↓ in Show mode).
 struct CueRowView: View {
     let index: Int
     let script: Script
     let isArmed: Bool
     let isPlaying: Bool
     let isFired: Bool
+    var isSelected: Bool = false
     let status: CueRenderStatus
-    let onArm: () -> Void
+    var onArm: () -> Void = {}
 
     var body: some View {
         HStack(spacing: 12) {
             Text("\(index + 1)")
                 .font(.system(.body, design: .monospaced))
                 .foregroundStyle(isArmed ? Color.accentColor : .secondary)
-                .frame(width: 30, alignment: .trailing)
+                .frame(width: 28, alignment: .trailing)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(script.title.isEmpty ? "Untitled Cue" : script.title)
@@ -33,19 +35,26 @@ struct CueRowView: View {
 
             Spacer()
 
+            if isArmed {
+                Text("ARMED")
+                    .font(.caption2).fontWeight(.bold).tracking(1)
+                    .foregroundStyle(Color.accentColor)
+            }
             statusView
             if isPlaying { WaveformIndicator() }
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .background(background)
-        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .padding(.vertical, 6)
+        .padding(.horizontal, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(isPlaying ? Color.accentColor.opacity(0.22)
+                      : (isArmed ? Color.accentColor.opacity(0.10) : Color.clear))
+        )
         .overlay(
             RoundedRectangle(cornerRadius: 6)
-                .strokeBorder(isArmed ? Color.accentColor : .clear, lineWidth: 2)
+                .strokeBorder(isArmed ? Color.accentColor.opacity(0.8) : .clear, lineWidth: 1.5)
         )
         .contentShape(Rectangle())
-        .onTapGesture(perform: onArm)
     }
 
     @ViewBuilder private var statusView: some View {
@@ -59,11 +68,5 @@ struct CueRowView: View {
         case .failed(let message):
             Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.red).help(message)
         }
-    }
-
-    private var background: Color {
-        if isPlaying { return Color.accentColor.opacity(0.30) }
-        if isArmed { return Color.accentColor.opacity(0.12) }
-        return Color.white.opacity(0.04)
     }
 }

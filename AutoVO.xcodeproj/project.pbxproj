@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		032403289E70413AACE92C98 /* ScriptListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2221FE20385D4DA0907B4122 /* ScriptListView.swift */; };
+		032403289E70413AACE92C98 /* CueListPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2221FE20385D4DA0907B4122 /* CueListPaneView.swift */; };
 		09A2ECE0CFF744E1892C6E9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83B52266DFB4BD38B18160F /* ContentView.swift */; };
 		14FFF348497F404B85A40A7B /* AutoVOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48FC341B1A94D2A867EFA3D /* AutoVOApp.swift */; };
 		3AB3A90847994EF8A5C16D3E /* ScriptRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */; };
 		5DEDB4CAA19C4E3794CC8BBF /* AudioDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */; };
 		650024B7D44646F59F11BA21 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247E56552D17447B8E4AF682 /* AVFoundation.framework */; };
-		65C480A96F294D1DB1AD548D /* PlaybackControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */; };
+		65C480A96F294D1DB1AD548D /* ControlPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A5989AD324ABF91DED37F /* ControlPaneView.swift */; };
 		72BD5428E5064F37A0EF4F71 /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */; };
 		8735935E50AD43DD8FE9E335 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */; };
 		921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5703D90D699342C79889F5EF /* ScriptEditorView.swift */; };
@@ -35,8 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackControlsView.swift; sourceTree = "<group>"; };
-		2221FE20385D4DA0907B4122 /* ScriptListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptListView.swift; sourceTree = "<group>"; };
+		056A5989AD324ABF91DED37F /* ControlPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPaneView.swift; sourceTree = "<group>"; };
+		2221FE20385D4DA0907B4122 /* CueListPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueListPaneView.swift; sourceTree = "<group>"; };
 		247E56552D17447B8E4AF682 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		45E3B5578DA945AD981EEE0E /* AutoVO.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutoVO.entitlements; sourceTree = "<group>"; };
 		5697E73B25C24F63A2A1F6B4 /* SpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechEngine.swift; sourceTree = "<group>"; };
@@ -109,10 +109,10 @@
 			isa = PBXGroup;
 			children = (
 				A83B52266DFB4BD38B18160F /* ContentView.swift */,
-				2221FE20385D4DA0907B4122 /* ScriptListView.swift */,
+				2221FE20385D4DA0907B4122 /* CueListPaneView.swift */,
 				ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */,
 				5703D90D699342C79889F5EF /* ScriptEditorView.swift */,
-				056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */,
+				056A5989AD324ABF91DED37F /* ControlPaneView.swift */,
 				E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */,
 				ECA9F0A766BC47938115D368 /* ShowModeView.swift */,
 				0B09325E5B5E4770BC5DCD61 /* CueRowView.swift */,
@@ -251,10 +251,10 @@
 				72BD5428E5064F37A0EF4F71 /* ProjectViewModel.swift in Sources */,
 				D6653C769ED146B3A38E2ABC /* PlaybackViewModel.swift in Sources */,
 				AE8B723043C548368923EFE6 /* CueListViewModel.swift in Sources */,
-				032403289E70413AACE92C98 /* ScriptListView.swift in Sources */,
+				032403289E70413AACE92C98 /* CueListPaneView.swift in Sources */,
 				3AB3A90847994EF8A5C16D3E /* ScriptRowView.swift in Sources */,
 				921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */,
-				65C480A96F294D1DB1AD548D /* PlaybackControlsView.swift in Sources */,
+				65C480A96F294D1DB1AD548D /* ControlPaneView.swift in Sources */,
 				EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */,
 				2E5417C6E3274271A8AC0D33 /* ShowModeView.swift in Sources */,
 				9BC99BFFA7C04114A30F59F4 /* CueRowView.swift in Sources */,
