@@ -88,21 +88,57 @@ final class KokoroSpeechEngine: SpeechEngine, @unchecked Sendable {
 
     // MARK: - SpeechEngine
 
-    /// Speaker ids exposed as descriptors. Human-readable Kokoro voice names are
-    /// wired in alongside the Settings picker; for now they're indexed.
+    /// English Kokoro voices (US + UK) exposed as descriptors. The non-English
+    /// voices in the multi-lingual model are omitted because we phonemize with a
+    /// fixed `lang = "en"`; surfacing them would mislead.
     var availableVoices: [VoiceDescriptor] {
-        (0..<speakerCount).map {
-            VoiceDescriptor(id: String($0), name: "Kokoro Voice \($0)", language: "en-US", tier: .premium)
+        (0..<min(speakerCount, Self.voiceKeys.count)).compactMap { sid in
+            let key = Self.voiceKeys[sid]
+            guard key.hasPrefix("a") || key.hasPrefix("b") else { return nil }
+            return VoiceDescriptor(id: String(sid), name: Self.displayName(key),
+                                   language: Self.language(key), tier: .premium)
         }
     }
 
-    func defaultVoiceID(language: String) -> String? { "0" }
+    func defaultVoiceID(language: String) -> String? { String(Self.defaultSpeakerID) }
+
+    /// `af_heart` — Kokoro's flagship voice; used when no voice is selected.
+    static let defaultSpeakerID = 3
+
+    /// Ordered Kokoro v1.0 voice keys (array index == speaker id), taken from the
+    /// model's `id2speaker` metadata.
+    private static let voiceKeys: [String] = [
+        "af_alloy", "af_aoede", "af_bella", "af_heart", "af_jessica", "af_kore",
+        "af_nicole", "af_nova", "af_river", "af_sarah", "af_sky",
+        "am_adam", "am_echo", "am_eric", "am_fenrir", "am_liam", "am_michael",
+        "am_onyx", "am_puck", "am_santa",
+        "bf_alice", "bf_emma", "bf_isabella", "bf_lily",
+        "bm_daniel", "bm_fable", "bm_george", "bm_lewis",
+        "ef_dora", "em_alex", "ff_siwis", "hf_alpha", "hf_beta", "hm_omega",
+        "hm_psi", "if_sara", "im_nicola", "jf_alpha", "jf_gongitsune", "jf_nezumi",
+        "jf_tebukuro", "jm_kumo", "pf_dora", "pm_alex", "pm_santa",
+        "zf_xiaobei", "zf_xiaoni", "zf_xiaoxiao", "zf_xiaoyi",
+        "zm_yunjian", "zm_yunxi", "zm_yunxia", "zm_yunyang"
+    ]
+
+    /// "af_heart" → "Heart (F)". Gender comes from the second character.
+    private static func displayName(_ key: String) -> String {
+        let base = key.split(separator: "_").last.map(String.init) ?? key
+        let name = base.prefix(1).uppercased() + base.dropFirst()
+        let gender = key.count > 1 && key[key.index(key.startIndex, offsetBy: 1)] == "f" ? "F" : "M"
+        return "\(name) (\(gender))"
+    }
+
+    private static func language(_ key: String) -> String {
+        key.hasPrefix("b") ? "en-GB" : "en-US"
+    }
 
     func render(text: String, voiceID: String?, rate: Float, format: AVAudioFormat) async throws -> RenderedAudio {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { throw SpeechEngineError.emptyText }
 
-        let sid = Int32(max(0, min(voiceID.flatMap { Int($0) } ?? 0, speakerCount - 1)))
+        let requested = voiceID.flatMap { Int($0) } ?? Self.defaultSpeakerID
+        let sid = Int32(max(0, min(requested, speakerCount - 1)))
         let speed = Self.speed(forRate: rate)
 
         return try await withCheckedThrowingContinuation { continuation in

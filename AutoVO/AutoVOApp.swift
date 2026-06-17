@@ -42,6 +42,7 @@ struct AutoVOApp: App {
             SettingsView()
                 .environmentObject(settings)
                 .environmentObject(deviceService)
+                .environmentObject(render)
                 .environmentObject(cueList)
         }
     }

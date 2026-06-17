@@ -40,6 +40,10 @@ final class CueRenderService: ObservableObject {
         self.format = format
     }
 
+    /// Voices the active engine can render — engine-agnostic, drives the Settings
+    /// picker (Kokoro speaker ids today, Apple identifiers on fallback).
+    var availableVoices: [VoiceDescriptor] { engine.availableVoices }
+
     func key(for script: Script, settings: AppSettings) -> RenderKey {
         RenderKey(
             text: script.body,
