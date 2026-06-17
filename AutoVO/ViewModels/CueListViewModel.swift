@@ -88,7 +88,7 @@ final class CueListViewModel: ObservableObject {
     // MARK: - GO
 
     func go() {
-        guard state != .firing, let cue = armedCue else { return }
+        guard state == .standby || state == .stopped, let cue = armedCue else { return }
         epoch &+= 1
         let myEpoch = epoch
         player.setOutputDevice(settings.selectedAudioDeviceID)

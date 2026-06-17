@@ -29,6 +29,9 @@
 		AE8B723043C548368923EFE6 /* CueListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */; };
 		EB93F2455BB64517A7E41717 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0526E16F358481F887222B8 /* ProjectManager.swift */; };
 		EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */; };
+		C5BE860B62B045B994E1DB8A /* KeyboardCueModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B179E49F6D4B5998406487 /* KeyboardCueModifier.swift */; };
+		9BC99BFFA7C04114A30F59F4 /* CueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B09325E5B5E4770BC5DCD61 /* CueRowView.swift */; };
+		2E5417C6E3274271A8AC0D33 /* ShowModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9F0A766BC47938115D368 /* ShowModeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +57,9 @@
 		E2C3AA27303743B0B00C905E /* PlaybackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewModel.swift; sourceTree = "<group>"; };
 		6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueListViewModel.swift; sourceTree = "<group>"; };
 		E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		00B179E49F6D4B5998406487 /* KeyboardCueModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCueModifier.swift; sourceTree = "<group>"; };
+		0B09325E5B5E4770BC5DCD61 /* CueRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueRowView.swift; sourceTree = "<group>"; };
+		ECA9F0A766BC47938115D368 /* ShowModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowModeView.swift; sourceTree = "<group>"; };
 		E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
 		ECA2F88D697B4DA5955F6325 /* ScriptRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptRowView.swift; sourceTree = "<group>"; };
 		F0526E16F358481F887222B8 /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
@@ -108,6 +114,9 @@
 				5703D90D699342C79889F5EF /* ScriptEditorView.swift */,
 				056A5989AD324ABF91DED37F /* PlaybackControlsView.swift */,
 				E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */,
+				ECA9F0A766BC47938115D368 /* ShowModeView.swift */,
+				0B09325E5B5E4770BC5DCD61 /* CueRowView.swift */,
+				00B179E49F6D4B5998406487 /* KeyboardCueModifier.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -247,6 +256,9 @@
 				921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */,
 				65C480A96F294D1DB1AD548D /* PlaybackControlsView.swift in Sources */,
 				EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */,
+				2E5417C6E3274271A8AC0D33 /* ShowModeView.swift in Sources */,
+				9BC99BFFA7C04114A30F59F4 /* CueRowView.swift in Sources */,
+				C5BE860B62B045B994E1DB8A /* KeyboardCueModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
