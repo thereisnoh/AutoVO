@@ -38,7 +38,7 @@ struct ContentView: View {
             }
         }
         .onAppear { cueList.setCues(projectVM.project.scripts) }
-        .onChange(of: projectVM.project.scripts) { _ in
+        .onChange(of: projectVM.project.scripts) { _, _ in
             cueList.setCues(projectVM.project.scripts)
         }
     }
@@ -47,7 +47,7 @@ struct ContentView: View {
         if let id = projectVM.selectedScriptID,
            let idx = projectVM.project.scripts.firstIndex(where: { $0.id == id }) {
             ScriptEditorView(script: $projectVM.project.scripts[idx])
-                .onChange(of: projectVM.project.scripts[idx]) { _ in
+                .onChange(of: projectVM.project.scripts[idx]) { _, _ in
                     projectVM.isDirty = true
                     render.invalidate(scriptID: id)
                 }

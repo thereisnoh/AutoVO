@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		032403289E70413AACE92C98 /* CueListPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2221FE20385D4DA0907B4122 /* CueListPaneView.swift */; };
 		09A2ECE0CFF744E1892C6E9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83B52266DFB4BD38B18160F /* ContentView.swift */; };
+		11EE593746A7466FBF418051 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 078C94F67ECC44A5B7855BC2 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		14FFF348497F404B85A40A7B /* AutoVOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48FC341B1A94D2A867EFA3D /* AutoVOApp.swift */; };
 		17A4E3BD82374EBFB1E644FE /* SpeechEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697E73B25C24F63A2A1F6B4 /* SpeechEngine.swift */; };
 		189927A087454843AAC46536 /* CueRenderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07801BD0C38E46DCBC5828F3 /* CueRenderService.swift */; };
+		1A275918C69543CE8C6CE371 /* Vendor/sherpa-onnx.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9060C196228F4CA2912D534E /* Vendor/sherpa-onnx.xcframework */; };
 		5DEDB4CAA19C4E3794CC8BBF /* AudioDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */; };
 		650024B7D44646F59F11BA21 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247E56552D17447B8E4AF682 /* AVFoundation.framework */; };
 		65C480A96F294D1DB1AD548D /* ControlPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A5989AD324ABF91DED37F /* ControlPaneView.swift */; };
@@ -20,15 +22,13 @@
 		921A0339CBF94DCDB0013BD8 /* ScriptEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5703D90D699342C79889F5EF /* ScriptEditorView.swift */; };
 		9BC99BFFA7C04114A30F59F4 /* CueRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B09325E5B5E4770BC5DCD61 /* CueRowView.swift */; };
 		9FF8E796AFF04965B697CCCB /* AppleSpeechEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03854221405E4A3694B149AB /* AppleSpeechEngine.swift */; };
-		CF5ACF3B384C4ED2A9936BEE /* KokoroSpeechEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6583653354E74AC0988987B1 /* KokoroSpeechEngine.swift */; };
-		1A275918C69543CE8C6CE371 /* sherpa-onnx.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9060C196228F4CA2912D534E /* sherpa-onnx.xcframework */; };
-		ADE1B343467D4A52BB6091D7 /* libonnxruntime.1.24.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 078C94F67ECC44A5B7855BC2 /* libonnxruntime.1.24.4.dylib */; };
-		11EE593746A7466FBF418051 /* libonnxruntime.1.24.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 078C94F67ECC44A5B7855BC2 /* libonnxruntime.1.24.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A527726ADD854231A925513C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */; };
-		B52B187F42484014B8AAD820 /* kokoro in Resources */ = {isa = PBXBuildFile; fileRef = FE4DA309912D4C54BD2C95A0 /* kokoro */; };
+		ADE1B343467D4A52BB6091D7 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 078C94F67ECC44A5B7855BC2 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib */; };
 		AE8B723043C548368923EFE6 /* CueListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */; };
 		AEAC923476E94801B61CD31B /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EED1EB1304D473EBD7E9F74 /* Script.swift */; };
+		B52B187F42484014B8AAD820 /* kokoro in Resources */ = {isa = PBXBuildFile; fileRef = FE4DA309912D4C54BD2C95A0 /* kokoro */; };
 		C5BE860B62B045B994E1DB8A /* KeyboardCueModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B179E49F6D4B5998406487 /* KeyboardCueModifier.swift */; };
+		CF5ACF3B384C4ED2A9936BEE /* KokoroSpeechEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6583653354E74AC0988987B1 /* KokoroSpeechEngine.swift */; };
 		D0779757930547A2A9B3F941 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3618C9E46BFBCA33B04 /* AppSettings.swift */; };
 		D4760B7DA9DD4E8BBC5E5034 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936727535D1E423DA1A00AC1 /* Project.swift */; };
 		E58CFEC2E33346A6BC1021D6 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A49CA77928B4C62AAEA77FB /* AudioPlayer.swift */; };
@@ -36,14 +36,26 @@
 		EED4806A9FD3414E9D5E8722 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		91C431CE5DFE408F93762F1F /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				11EE593746A7466FBF418051 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		00B179E49F6D4B5998406487 /* KeyboardCueModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardCueModifier.swift; sourceTree = "<group>"; };
 		03854221405E4A3694B149AB /* AppleSpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSpeechEngine.swift; sourceTree = "<group>"; };
-		6583653354E74AC0988987B1 /* KokoroSpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KokoroSpeechEngine.swift; sourceTree = "<group>"; };
-		9060C196228F4CA2912D534E /* sherpa-onnx.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Vendor/sherpa-onnx.xcframework; sourceTree = SOURCE_ROOT; };
-		078C94F67ECC44A5B7855BC2 /* libonnxruntime.1.24.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = Vendor/onnxruntime/libonnxruntime.1.24.4.dylib; sourceTree = SOURCE_ROOT; };
 		056A5989AD324ABF91DED37F /* ControlPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPaneView.swift; sourceTree = "<group>"; };
 		07801BD0C38E46DCBC5828F3 /* CueRenderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueRenderService.swift; sourceTree = "<group>"; };
+		078C94F67ECC44A5B7855BC2 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = Vendor/onnxruntime/libonnxruntime.1.24.4.dylib; sourceTree = SOURCE_ROOT; };
 		0B09325E5B5E4770BC5DCD61 /* CueRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueRowView.swift; sourceTree = "<group>"; };
 		2221FE20385D4DA0907B4122 /* CueListPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueListPaneView.swift; sourceTree = "<group>"; };
 		247E56552D17447B8E4AF682 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -51,11 +63,12 @@
 		5697E73B25C24F63A2A1F6B4 /* SpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechEngine.swift; sourceTree = "<group>"; };
 		5703D90D699342C79889F5EF /* ScriptEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptEditorView.swift; sourceTree = "<group>"; };
 		5EED1EB1304D473EBD7E9F74 /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
+		6583653354E74AC0988987B1 /* KokoroSpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KokoroSpeechEngine.swift; sourceTree = "<group>"; };
 		6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueListViewModel.swift; sourceTree = "<group>"; };
 		78B808F068A34ABB8516972B /* AutoVO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoVO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A49CA77928B4C62AAEA77FB /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FE4DA309912D4C54BD2C95A0 /* kokoro */ = {isa = PBXFileReference; lastKnownFileType = folder; name = kokoro; path = Vendor/kokoro; sourceTree = SOURCE_ROOT; };
+		9060C196228F4CA2912D534E /* Vendor/sherpa-onnx.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = "Vendor/sherpa-onnx.xcframework"; sourceTree = SOURCE_ROOT; };
 		936727535D1E423DA1A00AC1 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		9EC0C3618C9E46BFBCA33B04 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -66,6 +79,7 @@
 		E3DA8B3BDD9548DDB2F7EC32 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E625A4D5480C453AB06FE2B7 /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
 		F0526E16F358481F887222B8 /* ProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
+		FE4DA309912D4C54BD2C95A0 /* kokoro */ = {isa = PBXFileReference; lastKnownFileType = folder; name = kokoro; path = Vendor/kokoro; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,26 +89,12 @@
 			files = (
 				650024B7D44646F59F11BA21 /* AVFoundation.framework in Frameworks */,
 				8735935E50AD43DD8FE9E335 /* CoreAudio.framework in Frameworks */,
-				1A275918C69543CE8C6CE371 /* sherpa-onnx.xcframework in Frameworks */,
-				ADE1B343467D4A52BB6091D7 /* libonnxruntime.1.24.4.dylib in Frameworks */,
+				1A275918C69543CE8C6CE371 /* Vendor/sherpa-onnx.xcframework in Frameworks */,
+				ADE1B343467D4A52BB6091D7 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		91C431CE5DFE408F93762F1F /* Embed Libraries */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				11EE593746A7466FBF418051 /* libonnxruntime.1.24.4.dylib in Embed Libraries */,
-			);
-			name = "Embed Libraries";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXGroup section */
 		10A3B3ADED914926976EBC49 /* Models */ = {
@@ -173,8 +173,8 @@
 			children = (
 				247E56552D17447B8E4AF682 /* AVFoundation.framework */,
 				A4659ECE4EFD40E08EF6E1E5 /* CoreAudio.framework */,
-				9060C196228F4CA2912D534E /* sherpa-onnx.xcframework */,
-				078C94F67ECC44A5B7855BC2 /* libonnxruntime.1.24.4.dylib */,
+				9060C196228F4CA2912D534E /* Vendor/sherpa-onnx.xcframework */,
+				078C94F67ECC44A5B7855BC2 /* Vendor/onnxruntime/libonnxruntime.1.24.4.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -297,24 +297,24 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9E39NXJ92U;
 				ENABLE_APP_SANDBOX = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Vendor";
 				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers";
 				INFOPLIST_FILE = AutoVO/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Vendor/onnxruntime";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.autovo.AutoVO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Vendor";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Vendor/onnxruntime";
-				OTHER_LDFLAGS = "-lc++";
 				SWIFT_OBJC_BRIDGING_HEADER = "AutoVO/AutoVO-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -367,7 +367,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -430,7 +430,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -453,24 +453,24 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9E39NXJ92U;
 				ENABLE_APP_SANDBOX = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Vendor";
 				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers";
 				INFOPLIST_FILE = AutoVO/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Vendor/onnxruntime";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.autovo.AutoVO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Vendor";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers";
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Vendor/onnxruntime";
-				OTHER_LDFLAGS = "-lc++";
 				SWIFT_OBJC_BRIDGING_HEADER = "AutoVO/AutoVO-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};

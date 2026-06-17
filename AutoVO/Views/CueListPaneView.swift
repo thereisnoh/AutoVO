@@ -42,7 +42,7 @@ struct CueListPaneView: View {
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-                .onChange(of: cueList.armedCueID) { armed in
+                .onChange(of: cueList.armedCueID) { _, armed in
                     if mode == .show, let armed { withAnimation { proxy.scrollTo(armed, anchor: .center) } }
                 }
             }
