@@ -10,7 +10,12 @@ struct AutoVOApp: App {
 
     init() {
         let settings = AppSettings()
-        let render = CueRenderService(engine: AppleSpeechEngine())
+        // Prefer the offline Kokoro neural engine; fall back to Apple's on-device
+        // voices if the model bundle isn't present or fails to load.
+        let engine: SpeechEngine = KokoroSpeechEngine.locateModel()
+            .flatMap { try? KokoroSpeechEngine(modelDir: $0) }
+            ?? AppleSpeechEngine()
+        let render = CueRenderService(engine: engine)
         _settings = StateObject(wrappedValue: settings)
         _render = StateObject(wrappedValue: render)
         _projectVM = StateObject(wrappedValue: ProjectViewModel(settings: settings))

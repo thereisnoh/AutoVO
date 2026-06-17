@@ -4,3 +4,9 @@ xcuserdata/
 DerivedData/
 *.xcscmblueprint
 .build/
+
+# Vendored native deps (~470 MB) — fetched via Vendor/fetch-deps.sh, never committed
+Vendor/kokoro/
+Vendor/onnxruntime/
+Vendor/sherpa-onnx.xcframework/
+Vendor/*.tar.bz2
