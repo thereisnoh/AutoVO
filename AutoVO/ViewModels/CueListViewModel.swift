@@ -21,7 +21,9 @@ final class CueListViewModel: ObservableObject {
     @Published var armedCueID: UUID?
     @Published private(set) var playingCueID: UUID?
     @Published private(set) var firedCueIDs: Set<UUID> = []
-    @Published var stopAfterArmed = false
+    /// When true (default), the standby auto-advances to the next cue after the
+    /// current cue finishes. When false, playback holds (stops) on this cue.
+    @Published var autoNextCue = true
     @Published private(set) var elapsed: TimeInterval = 0
     @Published private(set) var duration: TimeInterval = 0
 
@@ -136,7 +138,7 @@ final class CueListViewModel: ObservableObject {
         firedCueIDs.insert(cueID)
         playingCueID = nil
         elapsed = duration
-        if stopAfterArmed {
+        if !autoNextCue {
             state = .stopped
             return
         }
@@ -182,7 +184,7 @@ final class CueListViewModel: ObservableObject {
         state = .standby
     }
 
-    func toggleStopAfter() { stopAfterArmed.toggle() }
+    func toggleAutoNext() { autoNextCue.toggle() }
 
     /// Audition an arbitrary cue (the Edit-pane play button) without touching the
     /// armed standby or fired markers. Shares the player, so it can't overlap GO.

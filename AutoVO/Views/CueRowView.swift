@@ -41,7 +41,12 @@ struct CueRowView: View {
                     .foregroundStyle(Color.accentColor)
             }
             statusView
-            if isPlaying { WaveformIndicator() }
+            // Reserve the indicator's footprint at all times so arming/playing a
+            // cue doesn't shift the row layout (the bars only appear while playing).
+            ZStack {
+                if isPlaying { WaveformIndicator() }
+            }
+            .frame(width: 18, height: 16)
         }
         .padding(.vertical, 6)
         .padding(.horizontal, 8)

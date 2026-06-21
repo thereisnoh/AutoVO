@@ -8,6 +8,9 @@ final class ProjectViewModel: ObservableObject {
     @Published var fileURL: URL?
     @Published var isDirty: Bool = false
     @Published var selectedScriptID: UUID?
+    /// Set when a cue is created via "Add"; the editor consumes this to focus the
+    /// title field (instead of the body) and clears it once handled.
+    @Published var newlyAddedScriptID: UUID?
 
     private let manager = ProjectManager()
     // Shared, injected — the single source of truth for voice/rate/device.
@@ -20,9 +23,10 @@ final class ProjectViewModel: ObservableObject {
     // MARK: - Script CRUD
 
     func addScript() {
-        let script = Script(title: "New Script", body: "")
+        let script = Script(title: "New Cue", body: "")
         project.scripts.append(script)
         selectedScriptID = script.id
+        newlyAddedScriptID = script.id
         markDirty()
     }
 
