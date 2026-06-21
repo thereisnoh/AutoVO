@@ -26,6 +26,13 @@ struct ContentView: View {
         }
         .preferredColorScheme(.dark)
         .background(Color(white: 0.11))
+        .background {
+            // Invisible accelerator: ⇧⌘T toggles Edit ⇄ Show from anywhere. The
+            // Show-mode key monitor ignores this keyCode, so it passes through.
+            Button("Toggle Show Mode", action: toggleMode)
+                .keyboardShortcut("t", modifiers: [.command, .shift])
+                .hidden()
+        }
         .overlay {
             if mode == .show {
                 CueKeyboardCatcher(
@@ -43,10 +50,19 @@ struct ContentView: View {
         }
     }
 
+    private func toggleMode() {
+        withAnimation(.easeInOut(duration: 0.18)) {
+            mode = (mode == .show) ? .edit : .show
+        }
+    }
+
     @ViewBuilder private var editPane: some View {
         if let id = projectVM.selectedScriptID,
            let idx = projectVM.project.scripts.firstIndex(where: { $0.id == id }) {
             ScriptEditorView(script: $projectVM.project.scripts[idx])
+                // Re-create the editor per selected cue so its focus logic
+                // (title vs. body) runs each time the selection changes.
+                .id(id)
                 .onChange(of: projectVM.project.scripts[idx]) { _, _ in
                     projectVM.isDirty = true
                     render.invalidate(scriptID: id)

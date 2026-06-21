@@ -18,9 +18,10 @@ struct ControlPaneView: View {
                 Divider().frame(height: 38)
                 armedInfo
                 Spacer(minLength: 12)
-                Toggle("Stop after", isOn: $cueList.stopAfterArmed)
+                Toggle("Auto next cue", isOn: $cueList.autoNextCue)
                     .toggleStyle(.checkbox)
-                    .help("Hold instead of advancing the standby after the cue finishes")
+                    .fixedSize()
+                    .help("Advance the standby to the next cue after this cue finishes")
                 transport
             }
         }
