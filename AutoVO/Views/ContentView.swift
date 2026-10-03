@@ -28,7 +28,9 @@ struct ContentView: View {
         .background(Color(white: 0.11))
         .navigationTitle(projectVM.displayName)
         .background {
-            DocumentWindowBinder(url: projectVM.fileURL, isEdited: projectVM.isDirty)
+            DocumentWindowBinder(url: projectVM.fileURL,
+                                 isEdited: projectVM.isDirty,
+                                 shouldClose: { projectVM.prepareForWindowClose() })
         }
         .background {
             // Invisible accelerator: ⇧⌘T toggles Edit ⇄ Show from anywhere. The
@@ -88,20 +90,68 @@ struct ContentView: View {
 }
 
 /// Mirrors document state onto the hosting NSWindow, which SwiftUI doesn't expose:
-/// the title-bar proxy icon (representedURL) and the "Edited" indicator.
+/// the title-bar proxy icon (representedURL), the "Edited" indicator, and a close
+/// guard (⌘W / close button) that can prompt to save.
 private struct DocumentWindowBinder: NSViewRepresentable {
     let url: URL?
     let isEdited: Bool
+    let shouldClose: () -> Bool
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
 
     func makeNSView(context: Context) -> NSView { NSView() }
 
     func updateNSView(_ view: NSView, context: Context) {
+        let coordinator = context.coordinator
+        coordinator.shouldClose = shouldClose
         // The window isn't attached during the first update; apply on the next turn.
         DispatchQueue.main.async {
             guard let window = view.window else { return }
             window.representedURL = url
             window.isDocumentEdited = isEdited
+            coordinator.installCloseGuard(on: window)
         }
+    }
+
+    final class Coordinator {
+        var shouldClose: () -> Bool = { true }
+        private var proxy: CloseGuardingWindowDelegate?
+
+        /// Wrap SwiftUI's own window delegate (re-wrapping if SwiftUI swapped it).
+        func installCloseGuard(on window: NSWindow) {
+            if let proxy, window.delegate === proxy { return }
+            let proxy = CloseGuardingWindowDelegate(wrapping: window.delegate) { [weak self] in
+                self?.shouldClose() ?? true
+            }
+            self.proxy = proxy
+            window.delegate = proxy
+        }
+    }
+}
+
+/// Answers `windowShouldClose` itself and forwards every other delegate message to the
+/// delegate SwiftUI installed, so window behaviour is otherwise unchanged.
+private final class CloseGuardingWindowDelegate: NSObject, NSWindowDelegate {
+    private let wrapped: NSWindowDelegate?
+    private let shouldClose: () -> Bool
+
+    init(wrapping wrapped: NSWindowDelegate?, shouldClose: @escaping () -> Bool) {
+        self.wrapped = wrapped
+        self.shouldClose = shouldClose
+    }
+
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        guard shouldClose() else { return false }
+        return wrapped?.windowShouldClose?(sender) ?? true
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        super.responds(to: aSelector) || (wrapped?.responds(to: aSelector) ?? false)
+    }
+
+    override func forwardingTarget(for aSelector: Selector!) -> Any? {
+        if let wrapped, wrapped.responds(to: aSelector) { return wrapped }
+        return super.forwardingTarget(for: aSelector)
     }
 }
 

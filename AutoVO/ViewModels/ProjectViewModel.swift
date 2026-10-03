@@ -121,6 +121,19 @@ final class ProjectViewModel: ObservableObject {
 
     func newProject() {
         guard confirmDiscardChangesIfNeeded() else { return }
+        resetToBlankProject()
+    }
+
+    /// Called from the window's close guard (⌘W / close button). Prompts if needed and,
+    /// when the close goes ahead, discards the document like a document-based app would,
+    /// so a window reopened from the Dock starts clean (and reopen-last can apply).
+    func prepareForWindowClose() -> Bool {
+        guard confirmDiscardChangesIfNeeded() else { return false }
+        resetToBlankProject()
+        return true
+    }
+
+    private func resetToBlankProject() {
         project = Project()
         fileURL = nil
         isDirty = false
