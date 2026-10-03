@@ -25,6 +25,29 @@ final class AudioDeviceService: ObservableObject {
         outputDevices = Self.enumerateOutputDevices()
     }
 
+    // MARK: - UID <-> ID
+
+    /// Resolve a persistent device UID to the current (per-boot) AudioDeviceID, or nil
+    /// if no such device is present right now. UIDs are what we store; IDs are only
+    /// valid for the running session.
+    static func deviceID(forUID uid: String) -> AudioDeviceID? {
+        var address = systemAddress(kAudioHardwarePropertyTranslateUIDToDevice)
+        var cfUID: CFString = uid as CFString
+        var deviceID = AudioDeviceID(kAudioObjectUnknown)
+        var size = UInt32(MemoryLayout<AudioDeviceID>.size)
+        let status = withUnsafeMutablePointer(to: &cfUID) { uidPtr in
+            AudioObjectGetPropertyData(AudioObjectID(kAudioObjectSystemObject), &address,
+                                       UInt32(MemoryLayout<CFString>.size), uidPtr, &size, &deviceID)
+        }
+        guard status == noErr, deviceID != kAudioObjectUnknown else { return nil }
+        return deviceID
+    }
+
+    /// The persistent UID of a currently present device (used to migrate legacy numeric IDs).
+    static func uid(forDeviceID deviceID: AudioDeviceID) -> String? {
+        getCFStringProperty(deviceID: deviceID, selector: kAudioDevicePropertyDeviceUID)
+    }
+
     // MARK: - Hot-plug listening
 
     private static let monitoredSelectors: [AudioObjectPropertySelector] = [

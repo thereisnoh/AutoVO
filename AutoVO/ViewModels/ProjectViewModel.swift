@@ -88,7 +88,7 @@ final class ProjectViewModel: ObservableObject {
     var hasUnsavedChanges: Bool {
         isDirty
             || project.selectedVoiceIdentifier != currentVoiceForProject
-            || project.selectedAudioDeviceID != settings.selectedAudioDeviceID
+            || project.selectedAudioDeviceUID != settings.selectedAudioDeviceUIDOrNil
     }
 
     /// Asks the user to Save / Don't Save / Cancel if there are unsaved changes.
@@ -210,8 +210,8 @@ final class ProjectViewModel: ObservableObject {
             if let voiceID = loaded.selectedVoiceIdentifier {
                 settings.selectedVoiceIdentifier = voiceID
             }
-            if let deviceID = loaded.selectedAudioDeviceID {
-                settings.selectedAudioDeviceID = deviceID
+            if let deviceUID = loaded.selectedAudioDeviceUID {
+                settings.selectedAudioDeviceUIDOrNil = deviceUID
             }
             snapshotSettingsIntoProject()
             isDirty = false
@@ -244,7 +244,7 @@ final class ProjectViewModel: ObservableObject {
     /// unsaved-changes baseline both reflect what the user currently hears.
     private func snapshotSettingsIntoProject() {
         project.selectedVoiceIdentifier = currentVoiceForProject
-        project.selectedAudioDeviceID = settings.selectedAudioDeviceID
+        project.selectedAudioDeviceUID = settings.selectedAudioDeviceUIDOrNil
     }
 
     private func noteProjectURL(_ url: URL) {

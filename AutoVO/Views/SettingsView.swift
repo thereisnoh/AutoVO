@@ -53,13 +53,10 @@ struct SettingsView: View {
             }
 
             Section("Audio Output") {
-                Picker("Output Device", selection: Binding(
-                    get: { settings.selectedAudioDeviceID ?? 0 },
-                    set: { settings.selectedAudioDeviceID = $0 == 0 ? nil : $0 }
-                )) {
-                    Text("System Default").tag(UInt32(0))
+                Picker("Output Device", selection: $settings.selectedAudioDeviceUID) {
+                    Text("System Default").tag("")
                     ForEach(deviceService.outputDevices) { device in
-                        Text(device.name).tag(device.id)
+                        Text(device.name).tag(device.uid)
                     }
                 }
                 .pickerStyle(.menu)

@@ -93,7 +93,7 @@ final class CueListViewModel: ObservableObject {
         guard state == .standby || state == .stopped, let cue = armedCue else { return }
         epoch &+= 1
         let myEpoch = epoch
-        player.setOutputDevice(settings.selectedAudioDeviceID)
+        player.setOutputDevice(settings.resolvedOutputDeviceID)
 
         // Instant path: the cue is already rendered.
         if let rendered = render.rendered(for: cue, settings: settings) {
@@ -191,7 +191,7 @@ final class CueListViewModel: ObservableObject {
     func preview(_ script: Script) {
         epoch &+= 1
         let myEpoch = epoch
-        player.setOutputDevice(settings.selectedAudioDeviceID)
+        player.setOutputDevice(settings.resolvedOutputDeviceID)
         state = .firing
         goTask?.cancel()
         goTask = Task { [weak self] in

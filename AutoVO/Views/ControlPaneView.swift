@@ -105,8 +105,8 @@ struct ControlPaneView: View {
     }
 
     private var deviceMissing: Bool {
-        guard let id = settings.selectedAudioDeviceID else { return false }
-        return !deviceService.outputDevices.contains { $0.id == id }
+        guard let uid = settings.selectedAudioDeviceUIDOrNil else { return false }
+        return !deviceService.outputDevices.contains { $0.uid == uid }
     }
 
     private var deviceBanner: some View {
