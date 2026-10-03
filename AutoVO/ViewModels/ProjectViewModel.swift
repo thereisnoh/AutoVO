@@ -18,16 +18,29 @@ final class ProjectViewModel: ObservableObject {
 
     init(settings: AppSettings) {
         self.settings = settings
+        seedBlankCueIfNeeded()
     }
 
     // MARK: - Script CRUD
 
     func addScript() {
+        appendBlankCue()
+        markDirty()
+    }
+
+    /// Appends a fresh "New Cue", selects it, and flags it so the editor focuses the title.
+    private func appendBlankCue() {
         let script = Script(title: "New Cue", body: "")
         project.scripts.append(script)
         selectedScriptID = script.id
         newlyAddedScriptID = script.id
-        markDirty()
+    }
+
+    /// An empty project starts with one blank cue so the user can type immediately
+    /// instead of clicking "+" first. Does not dirty the document.
+    private func seedBlankCueIfNeeded() {
+        guard project.scripts.isEmpty else { return }
+        appendBlankCue()
     }
 
     func deleteScript(id: UUID) {
@@ -72,6 +85,7 @@ final class ProjectViewModel: ObservableObject {
         fileURL = nil
         isDirty = false
         selectedScriptID = nil
+        seedBlankCueIfNeeded()
     }
 
     func open(url: URL) {
@@ -81,6 +95,7 @@ final class ProjectViewModel: ObservableObject {
             fileURL = url
             isDirty = false
             selectedScriptID = project.scripts.first?.id
+            seedBlankCueIfNeeded()
             // Sync per-project settings
             if let voiceID = loaded.selectedVoiceIdentifier {
                 settings.selectedVoiceIdentifier = voiceID
