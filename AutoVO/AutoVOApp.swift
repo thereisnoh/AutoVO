@@ -1,7 +1,19 @@
 import SwiftUI
 
+/// Hooks app-level lifecycle that SwiftUI doesn't expose: quitting with unsaved changes.
+@MainActor
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    weak var projectVM: ProjectViewModel?
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard let projectVM else { return .terminateNow }
+        return projectVM.confirmDiscardChangesIfNeeded() ? .terminateNow : .terminateCancel
+    }
+}
+
 @main
 struct AutoVOApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var settings: AppSettings
     @StateObject private var deviceService = AudioDeviceService()
     @StateObject private var render: CueRenderService
@@ -38,6 +50,10 @@ struct AutoVOApp: App {
                 .environmentObject(cueList)
                 .onOpenURL { url in
                     projectVM.open(url: url)
+                }
+                .onAppear {
+                    appDelegate.projectVM = projectVM
+                    projectVM.reopenLastProjectIfWanted()
                 }
         }
         .commands {

@@ -68,6 +68,10 @@ struct SettingsView: View {
                     deviceService.refresh()
                 }
             }
+
+            Section("Projects") {
+                Toggle("Reopen last project at launch", isOn: $settings.reopenLastProject)
+            }
         }
         .formStyle(.grouped)
         .frame(minWidth: 380, minHeight: 260)

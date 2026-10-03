@@ -1,5 +1,16 @@
 import Foundation
 
+enum ProjectFileError: LocalizedError {
+    case unsupportedVersion(found: Int, supported: Int)
+
+    var errorDescription: String? {
+        switch self {
+        case .unsupportedVersion(let found, let supported):
+            return "This project was saved by a newer version of AutoVO (file format \(found); this version reads up to \(supported)). Update AutoVO to open it."
+        }
+    }
+}
+
 final class ProjectManager {
     private let encoder: JSONEncoder = {
         let e = JSONEncoder()
@@ -22,6 +33,14 @@ final class ProjectManager {
 
     func load(from url: URL) throws -> Project {
         let data = try Data(contentsOf: url)
+        // Peek at the version before decoding the payload so a newer format produces a
+        // clear message instead of an opaque decoding error.
+        struct Envelope: Decodable { let version: Int }
+        let envelope = try decoder.decode(Envelope.self, from: data)
+        guard envelope.version <= ProjectFile.currentVersion else {
+            throw ProjectFileError.unsupportedVersion(found: envelope.version,
+                                                      supported: ProjectFile.currentVersion)
+        }
         let file = try decoder.decode(ProjectFile.self, from: data)
         return file.project
     }

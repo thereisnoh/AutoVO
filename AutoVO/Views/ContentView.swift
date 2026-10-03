@@ -26,6 +26,10 @@ struct ContentView: View {
         }
         .preferredColorScheme(.dark)
         .background(Color(white: 0.11))
+        .navigationTitle(projectVM.displayName)
+        .background {
+            DocumentWindowBinder(url: projectVM.fileURL, isEdited: projectVM.isDirty)
+        }
         .background {
             // Invisible accelerator: ⇧⌘T toggles Edit ⇄ Show from anywhere. The
             // Show-mode key monitor ignores this keyCode, so it passes through.
@@ -79,6 +83,24 @@ struct ContentView: View {
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
+/// Mirrors document state onto the hosting NSWindow, which SwiftUI doesn't expose:
+/// the title-bar proxy icon (representedURL) and the "Edited" indicator.
+private struct DocumentWindowBinder: NSViewRepresentable {
+    let url: URL?
+    let isEdited: Bool
+
+    func makeNSView(context: Context) -> NSView { NSView() }
+
+    func updateNSView(_ view: NSView, context: Context) {
+        // The window isn't attached during the first update; apply on the next turn.
+        DispatchQueue.main.async {
+            guard let window = view.window else { return }
+            window.representedURL = url
+            window.isDocumentEdited = isEdited
         }
     }
 }
