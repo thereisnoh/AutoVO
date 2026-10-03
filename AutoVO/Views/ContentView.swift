@@ -65,6 +65,9 @@ struct ContentView: View {
                 .id(id)
                 .onChange(of: projectVM.project.scripts[idx]) { _, _ in
                     projectVM.isDirty = true
+                }
+                // Only the body feeds the render; renaming must not discard cached audio.
+                .onChange(of: projectVM.project.scripts[idx].body) { _, _ in
                     render.invalidate(scriptID: id)
                 }
         } else {

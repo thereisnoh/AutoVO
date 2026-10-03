@@ -21,7 +21,7 @@ struct CueRowView: View {
                 .frame(width: 28, alignment: .trailing)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(script.title.isEmpty ? "Untitled Cue" : script.title)
+                Text(script.displayTitle)
                     .fontWeight(isArmed ? .semibold : .regular)
                     .foregroundStyle(isFired && !isArmed && !isPlaying ? .secondary : .primary)
                     .lineLimit(1)

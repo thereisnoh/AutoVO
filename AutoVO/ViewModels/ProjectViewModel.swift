@@ -8,9 +8,6 @@ final class ProjectViewModel: ObservableObject {
     @Published var fileURL: URL?
     @Published var isDirty: Bool = false
     @Published var selectedScriptID: UUID?
-    /// Set when a cue is created via "Add"; the editor consumes this to focus the
-    /// title field (instead of the body) and clears it once handled.
-    @Published var newlyAddedScriptID: UUID?
 
     private let manager = ProjectManager()
     // Shared, injected — the single source of truth for voice/rate/device.
@@ -28,12 +25,11 @@ final class ProjectViewModel: ObservableObject {
         markDirty()
     }
 
-    /// Appends a fresh "New Cue", selects it, and flags it so the editor focuses the title.
+    /// Appends a blank cue (automatic title, empty body) and selects it.
     private func appendBlankCue() {
-        let script = Script(title: "New Cue", body: "")
+        let script = Script()
         project.scripts.append(script)
         selectedScriptID = script.id
-        newlyAddedScriptID = script.id
     }
 
     /// An empty project starts with one blank cue so the user can type immediately
@@ -69,10 +65,9 @@ final class ProjectViewModel: ObservableObject {
 
     func duplicateScript(id: UUID) {
         guard let idx = project.scripts.firstIndex(where: { $0.id == id }) else { return }
+        // Title is kept verbatim: an automatic title stays automatic, a custom one is copied.
         var copy = project.scripts[idx]
         copy.id = UUID()
-        copy.title = "Copy of \(copy.title)"
-        copy.hasCustomTitle = true
         project.scripts.insert(copy, at: idx + 1)
         selectedScriptID = copy.id
         markDirty()

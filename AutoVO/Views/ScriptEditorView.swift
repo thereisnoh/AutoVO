@@ -4,7 +4,6 @@ import AppKit
 struct ScriptEditorView: View {
     @Binding var script: Script
     @EnvironmentObject var cueList: CueListViewModel
-    @EnvironmentObject var projectVM: ProjectViewModel
 
     @FocusState private var focus: Field?
 
@@ -13,7 +12,9 @@ struct ScriptEditorView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                TextField("Script title", text: titleBinding)
+                // An empty title is "automatic": the placeholder shows the name derived
+                // from the body, so it reads as grey ghost text and follows typing live.
+                TextField(script.displayTitle, text: $script.title)
                     .font(.headline)
                     .textFieldStyle(.plain)
                     .focused($focus, equals: .title)
@@ -43,28 +44,14 @@ struct ScriptEditorView: View {
 
             Divider()
 
-            TextEditor(text: Binding(
-                get: { script.body },
-                set: { newValue in
-                    script.body = newValue
-                    script.updateTitle()
-                }
-            ))
-            .font(.body)
-            .padding(8)
-            .focused($focus, equals: .body)
+            TextEditor(text: $script.body)
+                .font(.body)
+                .padding(8)
+                .focused($focus, equals: .body)
         }
-        .onAppear {
-            if projectVM.newlyAddedScriptID == script.id {
-                // Freshly created cue: focus the title and select it so typing replaces it.
-                projectVM.newlyAddedScriptID = nil
-                focus = .title
-                selectAllInFieldEditor()
-            } else {
-                // Existing cue: drop the cursor at the end of the script body.
-                focusBody()
-            }
-        }
+        // Drop the cursor at the end of the script body (new cues included: the name
+        // fills itself in from the body, so there's nothing to type in the title first).
+        .onAppear { focusBody() }
     }
 
     /// Move focus to the body editor with the caret at the end of the text.
@@ -75,27 +62,11 @@ struct ScriptEditorView: View {
         sendTextActionSoon("moveToEndOfDocument:")
     }
 
-    /// Select-all in the currently focused field editor (no SwiftUI API for this on
-    /// a TextField), used so a new cue's title can be typed over immediately.
-    private func selectAllInFieldEditor() {
-        sendTextActionSoon("selectAll:")
-    }
-
     /// Dispatch an AppKit text-editing action to the first responder after focus settles.
     private func sendTextActionSoon(_ action: String) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
             NSApp.sendAction(Selector(action), to: nil, from: nil)
         }
-    }
-
-    private var titleBinding: Binding<String> {
-        Binding(
-            get: { script.title },
-            set: { newValue in
-                script.title = newValue
-                script.hasCustomTitle = true
-            }
-        )
     }
 
     private var statsLabel: String {

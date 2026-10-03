@@ -64,7 +64,7 @@ struct ControlPaneView: View {
     private var armedTitle: String {
         guard let cue = cueList.armedCue else { return "No cue armed" }
         let n = (cueList.armedIndex ?? 0) + 1
-        return "\(n).  \(cue.title.isEmpty ? "Untitled Cue" : cue.title)"
+        return "\(n).  \(cue.displayTitle)"
     }
 
     private var transport: some View {
