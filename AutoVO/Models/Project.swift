@@ -1,7 +1,7 @@
 import Foundation
 import CoreAudio
 
-struct Project: Codable {
+struct Project: Codable, Equatable {
     var scripts: [Script] = []
     var selectedVoiceIdentifier: String?
     /// Persistent CoreAudio device UID (nil = System Default). Numeric AudioDeviceIDs

@@ -6,26 +6,37 @@ import SwiftUI
 final class ProjectViewModel: ObservableObject {
     @Published var project: Project = Project()
     @Published var fileURL: URL?
-    @Published var isDirty: Bool = false
     @Published var selectedScriptID: UUID?
+
+    /// The project as last loaded/saved. Dirtiness is derived by comparison rather
+    /// than tracked by hand, so view-side change notifications can't mis-flag it.
+    private var savedSnapshot: Project = Project()
+
+    /// True when the cues differ from what is on disk (or from the blank new project).
+    var isDirty: Bool { project != savedSnapshot }
 
     private let manager = ProjectManager()
     // Shared, injected — the single source of truth for voice/rate/device.
     private let settings: AppSettings
 
-    private static let lastProjectPathKey = "lastProjectPath"
+    /// Security-scoped bookmark of the last opened/saved project. Under the App Sandbox a
+    /// plain path can't be reopened without user interaction; a bookmark can.
+    private static let lastProjectBookmarkKey = "lastProjectBookmark"
+    /// The URL we currently hold security-scoped access to (only set when the project
+    /// was reopened from the bookmark; panel/Finder-opened URLs are already accessible).
+    private var scopedAccessURL: URL?
 
     init(settings: AppSettings) {
         self.settings = settings
         seedBlankCueIfNeeded()
         snapshotSettingsIntoProject()
+        savedSnapshot = project
     }
 
     // MARK: - Script CRUD
 
     func addScript() {
         appendBlankCue()
-        markDirty()
     }
 
     /// Appends a blank cue (automatic title, empty body) and selects it.
@@ -47,23 +58,19 @@ final class ProjectViewModel: ObservableObject {
         if selectedScriptID == id {
             selectedScriptID = project.scripts.last?.id
         }
-        markDirty()
     }
 
     func deleteScripts(at offsets: IndexSet) {
         project.scripts.remove(atOffsets: offsets)
-        markDirty()
     }
 
     func moveScripts(from source: IndexSet, to destination: Int) {
         project.scripts.move(fromOffsets: source, toOffset: destination)
-        markDirty()
     }
 
     func updateScript(_ script: Script) {
         guard let idx = project.scripts.firstIndex(where: { $0.id == script.id }) else { return }
         project.scripts[idx] = script
-        markDirty()
     }
 
     func duplicateScript(id: UUID) {
@@ -73,7 +80,6 @@ final class ProjectViewModel: ObservableObject {
         copy.id = UUID()
         project.scripts.insert(copy, at: idx + 1)
         selectedScriptID = copy.id
-        markDirty()
     }
 
     // MARK: - Document state
@@ -134,12 +140,13 @@ final class ProjectViewModel: ObservableObject {
     }
 
     private func resetToBlankProject() {
+        endScopedAccess()
         project = Project()
         fileURL = nil
-        isDirty = false
         selectedScriptID = nil
         seedBlankCueIfNeeded()
         snapshotSettingsIntoProject()
+        savedSnapshot = project
     }
 
     /// Open a file chosen by the user or the system (Finder, Open Recent).
@@ -163,12 +170,18 @@ final class ProjectViewModel: ObservableObject {
     /// nothing else has been opened yet (e.g. via a Finder double-click).
     func reopenLastProjectIfWanted() {
         guard settings.reopenLastProject, fileURL == nil, !isDirty,
-              let path = UserDefaults.standard.string(forKey: Self.lastProjectPathKey) else { return }
-        guard FileManager.default.fileExists(atPath: path) else {
-            UserDefaults.standard.removeObject(forKey: Self.lastProjectPathKey)
+              let data = UserDefaults.standard.data(forKey: Self.lastProjectBookmarkKey) else { return }
+        var isStale = false
+        guard let url = try? URL(resolvingBookmarkData: data, options: .withSecurityScope,
+                                 relativeTo: nil, bookmarkDataIsStale: &isStale),
+              FileManager.default.fileExists(atPath: url.path) else {
+            NSLog("[AutoVO] Last project bookmark no longer resolves; forgetting it")
+            UserDefaults.standard.removeObject(forKey: Self.lastProjectBookmarkKey)
             return
         }
-        load(url: URL(fileURLWithPath: path))
+        beginScopedAccess(to: url)
+        NSLog("[AutoVO] Reopening last project: %@%@", url.path, isStale ? " (stale bookmark, will refresh)" : "")
+        load(url: url)   // on success noteProjectURL() re-saves a fresh bookmark
     }
 
     func save() {
@@ -195,11 +208,8 @@ final class ProjectViewModel: ObservableObject {
 
     // MARK: - Helpers
 
-    private func markDirty() {
-        isDirty = true
-    }
-
     private func load(url: URL) {
+        if url != scopedAccessURL { endScopedAccess() }
         do {
             let loaded = try manager.load(from: url)
             project = loaded
@@ -214,7 +224,7 @@ final class ProjectViewModel: ObservableObject {
                 settings.selectedAudioDeviceUIDOrNil = deviceUID
             }
             snapshotSettingsIntoProject()
-            isDirty = false
+            savedSnapshot = project
             noteProjectURL(url)
         } catch {
             presentError("The project “\(url.deletingPathExtension().lastPathComponent)” couldn't be opened.", error)
@@ -226,7 +236,7 @@ final class ProjectViewModel: ObservableObject {
         snapshotSettingsIntoProject()
         do {
             try manager.save(project, to: url)
-            isDirty = false
+            savedSnapshot = project
             noteProjectURL(url)
             return true
         } catch {
@@ -249,7 +259,25 @@ final class ProjectViewModel: ObservableObject {
 
     private func noteProjectURL(_ url: URL) {
         NSDocumentController.shared.noteNewRecentDocumentURL(url)
-        UserDefaults.standard.set(url.path, forKey: Self.lastProjectPathKey)
+        do {
+            let bookmark = try url.bookmarkData(options: .withSecurityScope,
+                                                includingResourceValuesForKeys: nil, relativeTo: nil)
+            UserDefaults.standard.set(bookmark, forKey: Self.lastProjectBookmarkKey)
+        } catch {
+            NSLog("[AutoVO] Couldn't create bookmark for %@: %@", url.path, String(describing: error))
+        }
+    }
+
+    private func beginScopedAccess(to url: URL) {
+        endScopedAccess()
+        if url.startAccessingSecurityScopedResource() {
+            scopedAccessURL = url
+        }
+    }
+
+    private func endScopedAccess() {
+        scopedAccessURL?.stopAccessingSecurityScopedResource()
+        scopedAccessURL = nil
     }
 
     private func presentError(_ title: String, _ error: Error) {

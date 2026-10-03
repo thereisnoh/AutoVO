@@ -69,9 +69,6 @@ struct ContentView: View {
                 // Re-create the editor per selected cue so its focus logic
                 // (title vs. body) runs each time the selection changes.
                 .id(id)
-                .onChange(of: projectVM.project.scripts[idx]) { _, _ in
-                    projectVM.isDirty = true
-                }
                 // Only the body feeds the render; renaming must not discard cached audio.
                 .onChange(of: projectVM.project.scripts[idx].body) { _, _ in
                     render.invalidate(scriptID: id)

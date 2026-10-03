@@ -15,20 +15,14 @@ final class KokoroSpeechEngine: SpeechEngine, @unchecked Sendable {
     private let speakerCount: Int
     private let queue = DispatchQueue(label: "com.autovo.kokoro.tts")
 
-    /// Locate the Kokoro model directory. Prefers a copy bundled into the app
-    /// (`kokoro/` under Resources, added in the bundling milestone); falls back to
-    /// the repo's `Vendor/kokoro` for dev builds before bundling exists.
+    /// Locate the Kokoro model directory bundled into the app (`kokoro/` under
+    /// Resources, copied from `Vendor/kokoro` at build time). Nil if the bundle
+    /// is missing it, in which case the app falls back to Apple's voices.
     static func locateModel() -> URL? {
-        if let bundled = Bundle.main.url(forResource: "kokoro", withExtension: nil),
-           FileManager.default.fileExists(atPath: bundled.appendingPathComponent("model.onnx").path) {
-            return bundled
-        }
-        // Dev fallback: walk up from the executable to the repo's Vendor/kokoro.
-        let dev = URL(fileURLWithPath: "/Users/jon/Dev/AutoVO/Vendor/kokoro")
-        if FileManager.default.fileExists(atPath: dev.appendingPathComponent("model.onnx").path) {
-            return dev
-        }
-        return nil
+        guard let bundled = Bundle.main.url(forResource: "kokoro", withExtension: nil),
+              FileManager.default.fileExists(atPath: bundled.appendingPathComponent("model.onnx").path)
+        else { return nil }
+        return bundled
     }
 
     /// Create the engine from a Kokoro model directory containing `model.onnx`,

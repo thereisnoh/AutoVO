@@ -14,6 +14,7 @@
 		17A4E3BD82374EBFB1E644FE /* SpeechEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5697E73B25C24F63A2A1F6B4 /* SpeechEngine.swift */; };
 		189927A087454843AAC46536 /* CueRenderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07801BD0C38E46DCBC5828F3 /* CueRenderService.swift */; };
 		1A275918C69543CE8C6CE371 /* Vendor/sherpa-onnx.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9060C196228F4CA2912D534E /* Vendor/sherpa-onnx.xcframework */; };
+		3C1A7E2B9D4F4E0A8B6C2D1E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7A5D3F1C2E8B4C6D9F0A1B2C /* PrivacyInfo.xcprivacy */; };
 		5DEDB4CAA19C4E3794CC8BBF /* AudioDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA659EFB5064DB1806F95B6 /* AudioDeviceService.swift */; };
 		650024B7D44646F59F11BA21 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247E56552D17447B8E4AF682 /* AVFoundation.framework */; };
 		65C480A96F294D1DB1AD548D /* ControlPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A5989AD324ABF91DED37F /* ControlPaneView.swift */; };
@@ -66,6 +67,7 @@
 		6583653354E74AC0988987B1 /* KokoroSpeechEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KokoroSpeechEngine.swift; sourceTree = "<group>"; };
 		6E01FDA27EE34563A6FB4A3D /* CueListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CueListViewModel.swift; sourceTree = "<group>"; };
 		78B808F068A34ABB8516972B /* AutoVO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoVO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A5D3F1C2E8B4C6D9F0A1B2C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		8A49CA77928B4C62AAEA77FB /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9060C196228F4CA2912D534E /* Vendor/sherpa-onnx.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = "Vendor/sherpa-onnx.xcframework"; sourceTree = SOURCE_ROOT; };
@@ -149,6 +151,7 @@
 				8FF19A2BCF834E5ABAE56280 /* Assets.xcassets */,
 				FE4DA309912D4C54BD2C95A0 /* kokoro */,
 				DB72D29E048F415CBD72FF1B /* Info.plist */,
+				7A5D3F1C2E8B4C6D9F0A1B2C /* PrivacyInfo.xcprivacy */,
 				45E3B5578DA945AD981EEE0E /* AutoVO.entitlements */,
 			);
 			path = AutoVO;
@@ -217,7 +220,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 2630;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					D7B2772E12D140CEB8AD8A7C = {
 						CreatedOnToolsVersion = 15.0;
@@ -248,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A527726ADD854231A925513C /* Assets.xcassets in Resources */,
+				3C1A7E2B9D4F4E0A8B6C2D1E /* PrivacyInfo.xcprivacy in Resources */,
 				B52B187F42484014B8AAD820 /* kokoro in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,10 +299,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 9E39NXJ92U;
-				ENABLE_APP_SANDBOX = NO;
+				ARCHS = arm64;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Vendor";
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers";
 				INFOPLIST_FILE = AutoVO/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -355,6 +360,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9E39NXJ92U;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -412,6 +418,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9E39NXJ92U;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -451,10 +458,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 9E39NXJ92U;
-				ENABLE_APP_SANDBOX = NO;
+				ARCHS = arm64;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Vendor";
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/sherpa-onnx.xcframework/macos-arm64_x86_64/Headers";
 				INFOPLIST_FILE = AutoVO/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
